@@ -1,0 +1,95 @@
+
+  .library__body {
+    height: 90vh;
+    padding: 30px;
+    flex: 0.82;
+    width: 100%;
+    color: white;
+
+    overflow-y: overlay;
+
+    background: linear-gradient(rgba(91,87,115), rgba(0,0,0,1));
+}
+
+.library__body::-webkit-scrollbar {
+  display: none;
+}
+
+.library__body__info {
+  display: flex;
+  align-items: flex-end;
+  padding: 10px;
+}
+
+.library__body__infoText {
+  flex: 1;
+  display: grid;
+  justify-items: flex-start;
+}
+ 
+.library__body__info > img {
+  height: 15vw;
+  margin: 0 20px;
+  box-shadow: 0 4px 60px rgba(0,0,0,0.5);  
+}
+
+.library__body__icons {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.library__body__icons > .MuiSvgIcon-root {
+  margin-right: 20px;
+}
+
+.library__body__shuffle {
+  font-size: 50px !important;
+  margin-left: 50px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.library__body__songs {
+  margin: 0px -30px;
+}
+
+.library__body__shuffle:hover {
+  transition: 100ms transform ease-in;
+  transform: scale(1.08);
+}
+
+.library__bodySong__favIcon {
+  color: green;
+}
+
+.library__bodySong__sortIcon {
+  transform: scale(1.2);
+}
+.library__bodySong__sortIcon :hover{
+  transition: 100ms transform ease-in;
+  transform: scale(1.2);
+}
+
+.library__body__infoText > h2 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.library__body__infoText > p {
+  font-size: 14px;
+}
+
+
+.libraryBody__loi {
+  margin: 0;
+  list-style: none;
+  padding-left: 8px;
+  padding-right: 8px;
+  /* margin-top: -15px; */
+}
+
+/* .sidebarSongContainer {
+  cursor: pointer;
+  user-select: none;
+} */

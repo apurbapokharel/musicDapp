@@ -1,0 +1,271 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --clr-dark: rgb(32, 36, 37);
+    --clr-light: #fff;
+    --clr-accent: rgb(222, 52, 0);
+    --clr-accent-dark: rgb(163,38,0);
+    --clr-secondary: rgb(11, 145, 44);
+
+    --br: .5em;
+
+    --sampleTransition: transform 200ms cubic-bezier(.21, 1.00, .81, 1.00)
+}
+
+body {
+    font-family: sans-serif;
+    min-height: 100vh;
+    /* display: grid; */
+    place-items: center;
+    background: var(--clr-dark);
+    color: var(--clr-light);
+}
+
+h1,
+h2,
+h3,
+p {
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+.sample__btn {
+    cursor: pointer;
+    border: 0;
+    background: var(--clr-secondary);
+    border-radius: 100vw;
+    color: var(--clr-light);
+    font-weight: bold;
+    padding: .5em 1.5em;
+}
+
+.sampleCard__rank {
+    position: absolute;
+    top: 0;
+    right: 1em;
+    z-index: 499;
+    font-weight: bold;
+    color: white;
+    background: rgba(0,0,0,.65);
+    padding: .18em .18em .20em;
+    clip-path: polygon(100% 0%, 100% 100%, 50% 85%, 0 100%, 0 0);
+    transition: var(--sampleTransition);
+}
+
+.sample__game {
+    position: relative;
+    width: 12.5rem;
+    cursor: pointer;
+
+}
+
+/* .front .streamers {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+
+}
+
+.streamer > img{
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+
+    border: 1px solid green;
+} */
+
+.sample__front {
+    transition: 250ms;
+    color: black;
+}
+
+.sample__front .sample__thumbnail {
+    border-radius: var(--br);
+}
+
+.sample__front .sample__name {
+    text-align: start;
+    margin: .2em 0;
+    margin-left: 0;
+    font-size: 15px;
+    
+}
+
+.sample__front .sample__stats{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+.sample__front .sample__stats > p {
+    align-items: center;
+    font-size: 16px;
+    /* font-weight: bold; */
+    margin-left: 7px;
+    margin-top: 2px;
+}
+
+.sample__update__timer {
+    transform: scale(1.3);
+}
+
+.sample__front__avatars {
+    align-items: flex-start;
+    transform: scale(0.8);
+}
+
+.sample__back {
+    opacity: 0;
+    position: absolute;
+    top: 51%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .3em;
+    transform: translateY(35%);
+    color: white;
+}
+
+.sample__back .sample__streaming__info {
+    margin: .5em 0;
+    columns: 2;
+    column-rule: 1px solid rgba(255, 255, 255, .25);
+}
+
+.sample__back .sample__game__stat {
+    font-size: .765rem;
+    text-align: center;
+}
+
+.sample__back .sample__game__stat > span {
+    font-size: .80rem;
+    display: block;
+}
+
+.sample__back .sample__streamer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 2rem;
+}
+
+.sampleback .sample__streamer .sample__name {
+    font-weight: bold;
+}
+
+.sample__back .sample__streamers .sample__streamer__1> p{
+    font-size: .9rem;
+}
+.sample__back .sample__streamers .sample__streamer__2> p{
+    font-size: .9rem;
+}.sample__back .sample__streamers .sample__streamer__3> p{
+    font-size: .9rem;
+}.sample__back .sample__streamers .sample__streamer__4> p{
+    font-size: .9rem;
+}
+
+
+.sample__game .sample__back__background {
+    /* background: rgb(40, 46, 54); */
+    /* background: rgba(0,0,0,.65); */
+    /* background: black; */
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    transform: scale(.2, .9);
+    opacity: 0;
+    transition: 
+        var(--sampleTransition),
+        opacity 100ms linear;
+    border-radius: var(--br);
+}
+
+.sample__game:hover .sampleCard__rank {
+    transform: translate(105%, -9%);
+    background: var(--clr-secondary);
+    /* transition: var(--sampleTransition); */
+    /* transform: var(--sampleTransition); */
+}
+
+.sample__game:hover .sample__front {
+    transform: translateY(-28%) scale(.8);
+}
+
+.sample__game:hover .sample__front .sample__name {
+    animation: gameName 250ms forwards;
+    font-size: 17px;
+    color: white;
+}
+.sample__game:hover .sample__stats__streamers {
+    opacity: 0;
+}
+.sample__game:hover .sample__back {
+    opacity: 1;
+    transition: transfrom 250ms ease, opacity 150ms linear;
+    transform: translateY(0);
+}
+
+.sample__game:hover .sample__back__background{
+    transition: var(--sampleTransition);
+    opacity: 1;
+    transform: scale(1.25, 1.02);
+    background: var(--clr-dark);
+}
+
+.sample__back .sample__streamer img:hover{
+    transform: scale(1.2);
+    transition: .3s;
+}
+.sample__back .sample__streamer .sample__streamer__1:hover{
+    transform: scale(1.3);
+    transition: .2s;
+}
+
+.sample__card__streamer1 {
+    transform: scale(1.1);
+}
+.sample__card__streamer2 {
+    transform: scale(1.3);
+}
+.sample__card__streamer1:hover {
+    transform: scale(1.3);
+    transition: .2s;
+}
+.sample__card__streamer2:hover {
+    transform: scale(1.5);
+    transition: .2s;
+}
+
+@keyframes gameName {
+    0% {
+        text-align: left;
+        opacity: 1;
+    }
+
+    20% {
+        text-align: left;
+        opacity: 0;
+    }
+    50% {
+        text-align: center;
+        opacity: 0;
+        transform: scale(1.2);
+    }
+    100% {
+        text-align: center;
+        opacity: 1;
+    }
+}

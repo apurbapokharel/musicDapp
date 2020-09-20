@@ -1,0 +1,90 @@
+.sidebar {
+    height: 100vh;
+    flex: 0.18;
+    color: white;
+    /* background-color: #040404; */
+    /* background-color: rgb(6,253,68); */
+    background: linear-gradient(rgb(27, 26, 31), rgba(0,0,0,1));
+
+    min-width: 210px;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow-y: auto;
+    overflow-y: hidden;
+    /* overflow-y: overlay; */
+}
+
+.sidebar__logo {
+    height: 70px;
+    width: 100px;
+    object-fit: contain;
+    padding: 10px;
+}
+
+.sidebar__title {
+    margin-left: -90px;
+    padding: 5px;
+    font-size: 12px;
+    color: rgb(6,233,68);
+}
+
+.sidebar__songlist {
+    height: 271px;
+    /* overflow-y: scroll; */
+    overflow: scroll;
+}
+
+.sidebarSongContainer {
+    cursor: pointer;
+    user-select: none;
+}
+
+.loi {
+    margin: 0;
+    list-style: none;
+    padding: 10px;
+    margin-top: -15px;
+}
+
+.loi li {
+    padding: 0px 0;
+    font-weight: 450;
+}
+
+.sidebar__songrow__icon {
+    transform: scale(0.8);
+}
+
+.playlist {
+    background: #e3e3e3;
+    margin-top: 15px;
+    border-radius: 5px;
+    height: 300px;
+    width: 220px;
+}
+
+.selected {
+    background: green;
+}
+
+.pltext {
+    padding: 5px;
+}
+
+.songlist {
+    overflow-y: scroll;
+    height: 271px;
+}
+
+.song {
+    padding: 10px;
+}
+
+.sidebar__song__row {
+    display: inline;
+    justify-content: flex-start;
+    align-items: center;
+}
+.sidebar__song__row:hover {
+    color: rgb(6,253,68);
+}

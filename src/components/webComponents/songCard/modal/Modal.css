@@ -1,0 +1,33 @@
+:root {
+    /* --transition: transform 200ms cubic-bezier(.21, 1.00, .81, 1.00), */
+    --transition: transform 200ms cubic-bezier(.66,.27,.35,.69)
+}
+
+.Modal {
+    position: fixed;
+    z-index: 500;
+    background-color: white;
+    width: 100%;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px black;
+    padding: 16px;
+    top: 8%;
+    bottom: 17%;
+    left: 10%;
+    right: 10%;
+    /* height: 100vh; */
+    box-sizing: border-box;
+    transition: var(--transition);
+    /* transition: all 0.3s ease-out; */
+    /* opacity: 1; */
+    color: black;
+    overflow: scroll;
+    background: rgb(241, 236, 236);
+}
+
+@media (min-width: 600px) {
+    .Modal {
+        width: 900px;
+        left: calc(21% - 90px);
+    }
+}

@@ -1,51 +1,30 @@
-import React, { Component } from 'react';
-import logo from '../logo.png';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './App.css';
+import LandingHome from './webComponents/landingPage/LandingHome';
+import MainLayout from './webComponents/musicHome/librarySection/MusicHomeMainLayout';
+import LibraryLayout from './webComponents/musicHome/librarySection/MusicHomeLibraryLayout';
+import Upload from './webComponents/upload/UploadFormView';
+import AudioPlayer from './webComponents/musicHome/librarySection/AudioPlayer';
+import PlayerState from '../context/PlayerState';
+import AudioController from './webComponents/musicHome/librarySection/AudioController';
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <a
-            className="navbar-brand col-sm-3 col-md-2 mr-0"
-            href="http://www.dappuniversity.com/bootcamp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Dapp University
-          </a>
-        </nav>
-        <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex text-center">
-              <div className="content mr-auto ml-auto">
-                <a
-                  href="http://www.dappuniversity.com/bootcamp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img src={logo} className="App-logo" alt="logo" />
-                </a>
-                <h1>Dapp University Starter Kit</h1>
-                <p>
-                  Edit <code>src/components/App.js</code> and save to reload.
-                </p>
-                <a
-                  className="App-link"
-                  href="http://www.dappuniversity.com/bootcamp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  LEARN BLOCKCHAIN <u><b>NOW! </b></u>
-                </a>
-              </div>
-            </main>
-          </div>
-        </div>
-      </div>
-    );
-  }
+function App() {
+  return (
+    <Router>
+    <div className="App">
+      <PlayerState>
+      <Switch>
+        <Route exact path="/" component={LandingHome} />
+        <Route exact path="/musicHome" component={MainLayout} />
+        <Route exact path="/musicHome/library" component={LibraryLayout} />
+        <Route exact path="/musicHome/library/upload" component={Upload} />
+        <Route exact path="/musicHome/library/controller" component={AudioController} />
+      </Switch>
+      </PlayerState>
+    </div>
+    </Router>
+  );
 }
 
 export default App;

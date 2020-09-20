@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    transition: .5s;
+    z-index: 4;
+}
+nav.black{
+    background: rgba(0,0,0,.8);
+    height: 80px;
+    padding: 10px 10px;
+}
+nav .logo{
+    float: left;
+    color: azure;
+}
+nav .logo img {
+    height: 80px;
+    transition: .5s;
+}
+nav ul{
+    float: right;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+nav ul li{
+    list-style: none;
+}
+.nayanavcontainer a{
+    line-height: 80px;
+    /* background: aqua; */
+    color: aqua;
+    padding: 5px 20px;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: .5s;
+}
+/* nav ul li .milauni a .nayanava{
+    line-height: 80px;
+    background: aqua;
+    color: aqua;
+    padding: 5px 20px;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: .5s;
+} */
+nav.black ul li .milauni a{
+    color: #fff;
+    background: aqua;
+    line-height: 60px;
+}
+nav ul li .milauni a .active,
+nav ul li a:hover {
+    color:#fff;
+    background: #f00;
+}
+
+
+/* ANOTHER ANIMATION */
+/* nav ul li a:before{
+    content: '';
+    width: 0px;
+    height: 5px;
+    background: #00bcd4;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    transition: .5s;
+}
+nav ul li:hover a:before{
+    width: 50%;
+    transform: translateX(100%);
+} */

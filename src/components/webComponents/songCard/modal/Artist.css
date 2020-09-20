@@ -1,0 +1,54 @@
+
+.artistContainer{
+    background: black;
+    height: 325px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.artistContainer__left {
+    padding: 20px;
+    height: 325px;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+
+.artistContainer__left >img {
+    width: 14em;
+    height: 14em;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 9.5px;
+    margin-top: 2px;
+}
+
+.tipButton {
+    cursor: pointer;
+    border: none;
+    font-size: 15px;
+    background: var(--clr-secondary);
+    border-radius: 100vw;
+    color: var(--clr-light);
+    font-weight: bold;
+    padding: .7em 4.5em;
+    margin-left: 20px;
+    margin-top: 12px;
+}
+
+.songContainer__right {
+    background: white;
+    height: 325px;
+    padding: 20px 30px;
+    padding-left: 30px;
+    display: block;
+}
+
+.songContainer__right >p {
+    font-family: Poppins;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}

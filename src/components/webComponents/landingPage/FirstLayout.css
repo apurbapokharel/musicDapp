@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap');
+.banners {
+    height: 100vh;
+    color: azure;
+    background-image: url("https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80");
+    /* background-image: url("https://images.unsplash.com/photo-1576659743073-c97526882c18?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=60"); */
+    /* background-image: url("https://images.unsplash.com/photo-1518609878373-06d740f60d8b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=60"); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.banners background-image {
+    background-color: rgba(0,0,0,0.7);
+}
+
+.banner-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* align-content: center; */
+    /* justify-items: center; */
+}
+
+.banner-left-icon {
+    height: 30px;
+}
+.banner-left h1 {
+    justify-content: center;
+    text-justify: inter-cluster;
+    display: inline-flexbox;
+}
+.banner-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.musicicon {
+    width: '2rem';
+    height: '2rem';
+}
+
+.banner-left .knowMore__btn {
+    /* background-color: #519e8a; */
+    background-color: green;
+    color: #fff;
+    border: 2px solid #fff;
+    /* border-radius: 20%; */
+    width: 25%;
+    margin-top: 1em;
+    padding: 8px 0px;
+    font-size: 1em;
+    font-weight: lighter;
+    letter-spacing: 1px;
+    margin-bottom: 0.25em;
+    cursor: pointer;
+}
+
