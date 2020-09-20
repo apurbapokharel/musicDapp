@@ -6,9 +6,9 @@ import applogo from '../../../assets/applogo.png';
 class NayaNavbar extends Component {
     render() {
         return (
-            <div class="nayanavcontainer">
+            <div className="nayanavcontainer">
                 <nav>
-                    <div class="logo">
+                    <div className="logo">
                     {/* <Typography  align="center" color="textinherit" gutterBottom>
                         <img src={applogo6} style={{height:"35px"}}/>Music on Blockchain
                     </Typography> */}
@@ -17,9 +17,12 @@ class NayaNavbar extends Component {
                     </IconButton>
                     </div>
                     <ul>
-                        <li><a href="#" class="nayanava active">Home</a></li>
-                        <li class="milauni"><a href="/musichome" >Library</a></li>
-                        <li class="milauni"><a href="https://metamask.io/">Log In</a></li>
+                        <li><a href="#" className="nayanava active">Home</a></li>
+                        <li className="milauni"><a href="/musichome" >Library</a></li>
+                        <li className="milauni"><a href="/buyTokens">Buy Tokens</a></li>
+                        <li className="milauni"><a href="/trackTokens">Track Tokens</a></li>
+                        <li className="milauni"><a href="/viewStats">View Stats</a></li>
+                        <li className="milauni"><a href="https://metamask.io/">Log In</a></li>
                     </ul>
                 </nav>
             </div>

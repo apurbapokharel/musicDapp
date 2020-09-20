@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './App.css';
 import LandingHome from './webComponents/landingPage/LandingHome';
@@ -8,23 +8,33 @@ import Upload from './webComponents/upload/UploadFormView';
 import AudioPlayer from './webComponents/musicHome/librarySection/AudioPlayer';
 import PlayerState from '../context/PlayerState';
 import AudioController from './webComponents/musicHome/librarySection/AudioController';
+import BuyToken from './token/BuyToken';
+import TrackTokens from './token/TrackToken';
+import ViewStats from './token/ViewStats';
 
-function App() {
-  return (
-    <Router>
-    <div className="App">
-      <PlayerState>
-      <Switch>
-        <Route exact path="/" component={LandingHome} />
-        <Route exact path="/musicHome" component={MainLayout} />
-        <Route exact path="/musicHome/library" component={LibraryLayout} />
-        <Route exact path="/musicHome/library/upload" component={Upload} />
-        <Route exact path="/musicHome/library/controller" component={AudioController} />
-      </Switch>
-      </PlayerState>
-    </div>
-    </Router>
-  );
+import Web3 from 'web3'
+class App extends Component{
+  render(){
+    
+    return (
+      <Router>
+      <div className="App">
+        <PlayerState>
+        <Switch>
+          <Route exact path="/" component={LandingHome} />
+          <Route exact path="/musicHome" component={MainLayout} />
+          <Route exact path="/musicHome/library" component={LibraryLayout} />
+          <Route exact path="/musicHome/library/upload" component={Upload} />
+          <Route exact path="/musicHome/library/controller" component={AudioController} />
+          <Route exact path="/buyTokens" component={BuyToken} />
+          <Route exact path="/trackTokens" component={TrackTokens} />
+          <Route exact path="/viewStats" component={ViewStats} />
+        </Switch>
+        </PlayerState>
+      </div>
+      </Router>
+    );
+  }
 }
 
 export default App;

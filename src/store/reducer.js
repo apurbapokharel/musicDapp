@@ -4,21 +4,7 @@ const initialState = {
     songs: []
 };
 
-const reducer = (state = initialState, action) => {
-    // switch (action.type) {
-    //     case 'ADD_SONG':
-    //         const newSong = {
-    //             id: Math.random(),
-    //             songTitle: action.songData.songTitle,
-    //             singerName: action.songData.singerName,
-    //             singerRevPercent: action.songData.singerRevPercent
-    //         }
-    //         return {
-    //             ...state,
-    //             songs: state.songs.concat(newSong)
-    //         }
-    // }
-    
+const reducer = (state = initialState, action) => {    
         if (action.type === "ADD_SONG") {
             const newSong = {
                 id: Math.random(),
