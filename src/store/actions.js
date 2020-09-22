@@ -38,9 +38,16 @@ export const ADD_CURRENTADDRESS = (value) => {
     }
 };
 
-export const ADD_TOKENPRICE = (value) => {
+export const ADD_TOKENPRICEETH = (value) => {
     return{
-        type:"TOKENPRICE_ASSIGNMENT",
+        type:"TOKENPRICEETH_ASSIGNMENT",
+        payload: value
+    }
+};
+
+export const ADD_TOKENPRICEWEI = (value) => {
+    return{
+        type:"TOKENPRICEWEI_ASSIGNMENT",
         payload: value
     }
 };
