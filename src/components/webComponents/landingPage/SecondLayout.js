@@ -5,6 +5,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 // import blue from '@material-ui/core/colors/blue';
 // import Home from '../WebComponents/LandingPageComponents/Home';
 import './SecondLayout.css'
+import { Link } from 'react-router-dom'
 
 
 const useStyles = makeStyles(theme => ({
@@ -61,11 +62,16 @@ function SecondLayout() {
             Receive Tips
         </Typography>
         <Typography align="center" gutterBottom>
-          <a href="/upload" style={{textDecoration:"none"}}>
-        <Button variant="outlined" className="uploadYourOwn__btn">
-            Upload Your Own
-        </Button>
-        </a>
+        <Link to='/musicHome/library/upload' style={{textDecoration:"none"}}>
+          <Button variant="outlined" className="uploadYourOwn__btn">
+              Upload Your Own
+          </Button>
+        </Link>  
+          {/* <a href="/musicHome/library/upload" style={{textDecoration:"none"}}>
+            <Button variant="outlined" className="uploadYourOwn__btn">
+                Upload Your Own
+            </Button>
+          </a> */}
         </Typography>
         </div>
       </Grid>

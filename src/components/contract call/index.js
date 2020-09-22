@@ -94,7 +94,6 @@ function Index()
             {/* <Upload /> */}
         </>
     )
-    
 }
 
 export default Index
