@@ -46,14 +46,10 @@ class SongCard extends Component {
             <h3 className="sample__name">The Beaten Path</h3>
             {/* <h3 className="sample__name">{this.props.title}</h3> */}
             <Grid container className="sample__stats__streamers">
-            <Grid item xs={8} className="sample__stats">
-                <TimerIcon className="sample__update__timer"/>
-                <p>5 days ago</p>
-            </Grid>
-            <Grid item xs={4} className="sample__front__avatars">
-                {/* <p> 29 days ago</p> */}
-                <GroupAvatars className="sample__front__avatars"/>
-            </Grid>
+                <Grid item xs={8} className="sample__stats">
+                    <p>Taylor Swift</p>
+                </Grid>
+               
             </Grid>
         </div>
         <div className="sample__back">

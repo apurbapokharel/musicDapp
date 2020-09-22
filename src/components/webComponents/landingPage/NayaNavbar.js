@@ -18,9 +18,6 @@ class NayaNavbar extends Component {
                     </IconButton>
                     </div>
                     <ul>
-                        <Link to='/'>
-                            <li className="milauni">Home</li>
-                        </Link>  
                         <Link to='/musichome'>
                             <li className="milauni">Library</li>
                         </Link>  
