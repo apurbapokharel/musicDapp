@@ -5,7 +5,7 @@ import Upload from './upload';
 import Music from '../../abis/Musicc.json';
 import DappTokenInstance from '../../abis/DappToken.json'
 import DappTokenSaleInstance from '../../abis/DappTokenSale.json'
-import  {ADD_SONGS, ADD_MUSIC_CONTRACT, ADD_TOKEN_CONTRACT, ADD_TOKENSALE_CONTRACT, ADD_TOKENPRICE, ADD_TOKENSOLD, ADD_TOKENHELD, ADD_CURRENTADDRESS} from '../../store/actions'
+import  {ADD_SONGS, ADD_MUSIC_CONTRACT, ADD_TOKEN_CONTRACT, ADD_TOKENSALE_CONTRACT, ADD_TOKENPRICEETH, ADD_TOKENSOLD, ADD_TOKENHELD, ADD_CURRENTADDRESS, ADD_TOKENPRICEWEI} from '../../store/actions'
 import { useSelector, useDispatch } from 'react-redux';
 
 function Index()
@@ -83,7 +83,8 @@ function Index()
             // console.log(price)
             const count = await contract.methods.tokensSold().call()
             // // console.log(count)
-            dispatch(ADD_TOKENPRICE(web3.utils.fromWei(price.toString(), 'Ether')))
+            dispatch(ADD_TOKENPRICEWEI(price.toNumber()))
+            dispatch(ADD_TOKENPRICEETH(web3.utils.fromWei(price.toString(), 'Ether')))
             dispatch(ADD_TOKENSOLD(count.toNumber()))
         }    
     }

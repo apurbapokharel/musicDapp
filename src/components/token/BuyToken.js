@@ -1,123 +1,132 @@
-import React, { Component } from 'react'
-// import DappTokenInstance from '../abis/DappToken.json'
-// import DappTokenSaleInstance from '../abis/DappTokenSale.json'
-import Web3 from 'web3';
-// import Main2 from './Main2'
+import { Button } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-class BuyToken extends Component {
+function BuyToken(){
+    const[forceRerender, setForceRerender] = useState(0)
+    const tokenContract = useSelector(state => state.tokenContract);
+    const tokenSaleContract = useSelector(state => state.tokenSaleContract);
+    const tokenHeld = useSelector(state => state.tokenHeld);
+    const tokenPriceETH = useSelector(state => state.tokenPriceETH);
+    const tokenPriceWEI = useSelector(state => state.tokenPriceWEI);
+    const tokenSold = useSelector(state => state.tokenSold);
+    const currentAccount = useSelector(state => state.currentAccount);
+    const [numberOfToken, setNumberOfToken] = useState("")
+    const [transferAddress, setTransferAddress] = useState("")
+    const [transferValue, setTransferValue] = useState("")
+    useEffect(() => {
+        var progressPercent = (Math.ceil(tokenSold) / 750000) * 100
+        var fillBar = document.getElementById('progress')
+        fillBar.style.width = progressPercent + '%'
+    }, [forceRerender]);
 
-    render() {
-        console.log("yo");
-        return (
-            <p>Buy</p>
-           
-        )
-    }
-//   async componentWillMount(){
-//     await this.loadWeb3()
-//     await this.loadBlockchainData()
-//   }
+    return(
+        <div className="container ">
+          <div className="row ">
+                <div className="col-lg-12">
+                    <h1 className="">EXCHANGE</h1>
+                    <hr/>
+                    <br/>
+                </div>
 
-//   async loadBlockchainData(){
-//     const web3 = window.web3
-//     const accounts = await web3.eth.getAccounts()
-//     this.setState({account : accounts[0]})
-//     const networkId = await web3.eth.net.getId()
-//     const networkData = DappTokenInstance.networks[networkId]
-//     if(networkData) {
-//       const contract = web3.eth.Contract(DappTokenInstance.abi, networkData.address)
-//       this.setState({contract1: contract})
-//     }
-//     const networkData2 = DappTokenSaleInstance.networks[networkId]
-//     if(networkData2) {
-//       const contract = web3.eth.Contract(DappTokenSaleInstance.abi, networkData2.address)
-//       this.setState({contract2: contract})
-//       this.setState({ loading : false})
-//       // const name = await this.state.contract1.methods.name().call()
-//       // console.log(name)
-//       const price = await contract.methods.tokenPrice().call()
-//       // console.log(price)
-//       this.setState({tokenPriceWei: price.toNumber()})
-//       // console.log(this.state.tokenPriceWei)
-//       const count = await contract.methods.tokensSold().call()
-//       // console.log(count)
-//       this.setState({tokenPriceEther: web3.utils.fromWei(price.toString(), 'Ether')})
-//       this.setState({tokensSold: count.toNumber()})
-//       // console.log(this.state.tokenPriceEther, this.state.tokensSold)
-//       const tokenHeld = await this.state.contract1.methods.balanceOf(this.state.account).call()
-//       // console.log(this.state.account, tokenHeld.toNumber())
-//       this.setState({tokenHeld: tokenHeld.toNumber()})
+                <div id="content" className="">
+                        <p >
+                            Introducing "DApp Token" (DAPP)!
+                            Token price is {tokenPriceETH} Ether. You currently have {tokenHeld}&nbsp;DAPP.
+                        </p>
+                        <br/>
+                        <form onSubmit={(event) => {
+                            event.preventDefault()
+                            const value = numberOfToken
+                            console.log(value)
+                            tokenSaleContract.methods.buyTokens(value, currentAccount).send({from: currentAccount, value : value * tokenPriceWEI })
+                        }} role="form">
+                            <div className="form-group">
+                                <div className="input-group">
+                                    <input 
+                                        id="numberOfTokens" 
+                                        className="form-control input-lg" 
+                                        type="number" 
+                                        name="number" 
+                                        placeholder="Buy 1 or more token(s)"
+                                        pattern="[0-9]"
+                                        value={numberOfToken}
+                                        onChange={(e) => {setNumberOfToken(e.target.value)}}
+                                        required
+                                    />
+                                    <span className="input-group-btn">
+                                    <button type="submit" className="btn btn-primary btn-lg">Buy Tokens</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                        <br/>
+                        <div className="progress">
+                            <div id="progress" className="progress-bar progress-bar-striped active" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                        <p> {tokenSold} / 750000 tokens sold</p>
+                        <hr />
+                        <p id="accountAddress"></p>
+                    {/* </div>  */}
+                </div>
 
-//     }  
-//   }
+                <div className="col-lg-12">
+                    <h1 className="">TRANSFER</h1>
+                    <hr/>
+                    <br/>
+                </div>
 
-//   async loadWeb3() { //this code is given to us by metamask
-//     if (window.ethereum) {
-//       window.web3 = new Web3(window.ethereum) //import web3 
-//       await window.ethereum.enable()
-//     }
-//     else if (window.web3) {
-//       window.web3 = new Web3(window.web3.currentProvider)
-//     }
-//     else {
-//       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
-//     }
-//   }
-
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       account : '',
-//       contract1: null,
-//       contract2: null,
-//       productCount: 0,
-//       loading: true,
-//       tokenPriceEther: null,
-//       tokenPriceWei: null,
-//       tokensSold: '',
-//       tokenHeld: null
-//     };
-//     //function binding
-//     this.buyTokens = this.buyTokens.bind(this)
-//     this.transferTokens = this.transferTokens.bind(this)
-//   }
-
-//   buyTokens(tokens){
-//     this.setState({loading: true}, () => {
-//       this.state.contract2.methods.buyTokens(tokens, this.state.account).send({from: this.state.account, value : tokens * this.state.tokenPriceWei })
-//       this.setState({loading: false})
-//     })
-//   }
-
-//   transferTokens(to, tokens){
-//     this.setState({loading: true}, () => {
-//       this.state.contract1.methods.transfer(to, tokens, this.state.account).send({from: this.state.account })
-//       this.setState({loading: false})
-//     })
-//   }
-//     render() {
-//         return (
-//           <div>
-//               <div className="container-fluid mt-5">
-//                 <div className="row">
-//                     <main role="main" className="col-lg-12 d-flex">
-//                     { this.state.loading
-//                       ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
-//                       : <Main2 
-//                           tokenPriceEther = {this.state.tokenPriceEther}
-//                           tokensSold = {this.state.tokensSold}
-//                           tokenHeld = {this.state.tokenHeld}
-//                           account = {this.state.account}
-//                           buyTokens = {this.buyTokens}
-//                           transferTokens = {this.transferTokens}
-//                       />
-//                   }
-//                     </main> 
-//                 </div>
-//               </div> 
-//           </div>
-//         );
-//       }
-    }
+                <div id="content" className="">
+                        <p >
+                           Transfer tokens from {currentAccount} . You currently have {tokenHeld}&nbsp;DAPP.
+                        </p>
+                        <br/>
+                        <form onSubmit={(event) => {
+                            event.preventDefault()
+                            const address = transferAddress
+                            const value = transferValue
+                            // console.log(address)
+                            tokenContract.methods.transfer(transferAddress, value, currentAccount).send({from: currentAccount })
+                        }} role="form">
+                            <div className="form-group">
+                                <div className="input-group">
+                                    <input 
+                                    id="transferAddress" 
+                                    className="form-control input-lg"  
+                                    name="number" 
+                                    placeholder="to: address"
+                                    value={transferAddress}
+                                    onChange={(e) => {setTransferAddress(e.target.value)}}
+                                    required
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <div className="input-group">
+                                    <input 
+                                        id="transferValue" 
+                                        className="form-control input-lg" 
+                                        type="number" 
+                                        name="number" 
+                                        placeholder="token number: 1 or more"
+                                        pattern="[0-9]"
+                                        value={transferValue}
+                                        onChange={(e) => {setTransferValue(e.target.value)}}
+                                        required
+                                    />
+                                    <span className="input-group-btn">
+                                    <button type="submit" className="btn btn-primary btn-lg">Transfer Tokens</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    <br/>
+                    <hr />
+                </div>     
+          </div>
+      </div>
+    )
+}
     
 export default BuyToken;

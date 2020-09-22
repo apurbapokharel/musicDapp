@@ -5,8 +5,9 @@ import tokenContractAssigner from './tokenReducer'
 import tokenSaleContractAssigner from './tokenSaleReducer'
 import curentAccountAssigner from './currentAccountReducer'
 import tokenHeldAssigner from './tokenHeldReducer'
-import tokenPriceAssigner from './tokenPriceReducer'
+import tokenETHPriceAssigner from './tokenETHPriceReducer'
 import tokenSoldReducer from './tokenSoldReducer'
+import tokenWEIPriceAssigner from './tokenWEIPriceReducer'
 
 const allReducers = combineReducers({
     // musics: musicAssigner,
@@ -15,7 +16,8 @@ const allReducers = combineReducers({
     tokenSaleContract: tokenSaleContractAssigner,
     currentAccount: curentAccountAssigner,
     tokenHeld: tokenHeldAssigner,
-    tokenPrice: tokenPriceAssigner,
+    tokenPriceETH: tokenETHPriceAssigner,
+    tokenPriceWEI: tokenWEIPriceAssigner,
     tokenSold: tokenSoldReducer
 });
 

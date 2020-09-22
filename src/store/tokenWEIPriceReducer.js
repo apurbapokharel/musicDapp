@@ -1,12 +1,12 @@
 //value token price in Eth is stored
-const tokenPriceAssigner = (state = null , action) => {
+const tokenWEIPriceAssigner = (state = null , action) => {
     // console.log(action.payload, action.type);
     switch(action.type){
-        case "TOKENPRICE_ASSIGNMENT":
+        case "TOKENPRICEWEI_ASSIGNMENT":
             return action.payload;
         default:
             return state;
         };
 }
 
-export default tokenPriceAssigner;
+export default tokenWEIPriceAssigner;
