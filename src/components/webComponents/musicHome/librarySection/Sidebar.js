@@ -18,6 +18,7 @@ import {Grid,Container} from '@material-ui/core';
 
 import { useContext } from 'react'
 import playerContext from '../../../../context/playerContext';
+import { Link } from 'react-router-dom'
 
 function Sidebar() {
   const { SetCurrent, currentSong, songs } = useContext(playerContext)
@@ -43,31 +44,43 @@ function Sidebar() {
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSFQQDgOVy9n6ikyzSoFjey-JnUI4s6v3WmYb3qA0NfWfEFEAIhfFiynxhrN2vhuzkf3ahbUuX3NzpujqAsQo_SjGm_A3OM7_IG&usqp=CAU&ec=45690272"
                 alt=""
             /> */}
-                <div className="sidebar__logo">
-                    {/* <Typography  align="center" color="textinherit" gutterBottom>
-                        <img src={applogo6} style={{height:"35px"}}/>Music on Blockchain
-                    </Typography> */}
-                    <IconButton  color="inherit" aria-label="menu" className="icon_btn">
-                    <img src={applogo} style={{height:"30px", marginRight:"7px"}}/>
-                        <p style={{color:"white",fontSize:"22px" ,fontWeight:"bold"}}>MusicCoin</p>
-                    </IconButton>
-                </div>
+               
                 {/* <div onClick={() => this.showHomeHandler()}>
                 </div> */}
+                 <div className="sidebar__logo">
+                        <Link to="/" style={{textDecoration:"none"}}>
+                            <IconButton  color="inherit" aria-label="menu" className="icon_btn">
+                                <img src={applogo} style={{height:"30px", marginRight:"7px"}}/>
+                                <p style={{color:"white",fontSize:"22px" ,fontWeight:"bold"}}>MusicCoin</p>
+                            </IconButton>
+                        </Link> 
+                </div>
 
-                <a href="/musicHome" style={{textDecoration:"none"}}>
+                <Link to="/musicHome" style={{textDecoration:"none"}}>
+                    <SidebarOption Icon={HomeIcon} title="Home" />
+                </Link>  
+
+                <Link to="/musicHome/library" style={{textDecoration:"none"}}>
+                    <SidebarOption Icon={LibraryMusicIcon} title="Library" />
+                </Link> 
+
+                <Link to="/musicHome/library/upload" style={{textDecoration:"none"}}>
+                    <SidebarOption Icon={CloudUploadIcon} title="Upload Your Own" />
+                </Link> 
+
+                {/* <a href="/musicHome" style={{textDecoration:"none"}}>
                 <SidebarOption Icon={HomeIcon} title="Home" />
-                </a>
+                </a> */}
 
-                <SidebarOption Icon={SearchIcon} title="Search" />
+                {/* <SidebarOption Icon={SearchIcon} title="Search" /> */}
 
-                <a href="/musicHome/library" style={{textDecoration:"none"}}>
+                {/* <a href="/musicHome/library" style={{textDecoration:"none"}}>
                 <SidebarOption Icon={LibraryMusicIcon} title="Library" />
-                </a>
+                </a> */}
 
-                <a href="/musicHome/library/upload" style={{textDecoration:"none"}}>
+                {/* <a href="/musicHome/library/upload" style={{textDecoration:"none"}}>
                 <SidebarOption Icon={CloudUploadIcon} title="Upload Your Own" />
-                </a>
+                </a> */}
 
                 {/* <button onClick={() => this.showHomeHandler()}>
                     Click Me

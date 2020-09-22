@@ -77,19 +77,20 @@ class NewUploadForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-  //   const newItem = this.state.currentItem;
-  //   console.log(newItem);
-  //   if((newItem.songTitle !== "") &&
-  //     (newItem.costPerDownload !== "")) {
-  //       const newItems = [...this.state.items, newItem];
-  //       this.setState ({
-  //         items: newItems,
-  //         currentItem: {
-  //           songTitle: '',
-  //           key: ''
-  //         }
-  //       })
-  //     }
+    // const newItem = this.state.currentItem;
+    // console.log(newItem);
+    // if((newItem.songTitle !== "") &&
+    //   (newItem.costPerDownload !== "")) {
+    //     const newItems = [...this.state.items, newItem];
+    //     this.setState ({
+    //       items: newItems,
+    //       currentItem: {
+    //         songTitle: '',
+    //         key: ''
+    //       }
+    //     })
+    //   }
+    console.log("submitted");
     };
 
   render() {

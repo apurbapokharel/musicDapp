@@ -13,6 +13,7 @@ import TrackTokens from './token/TrackToken';
 import ViewStats from './token/ViewStats';
 
 import Web3 from 'web3'
+import Index from './contract call';
 class App extends Component{
   render(){
     
@@ -21,7 +22,7 @@ class App extends Component{
       <div className="App">
         <PlayerState>
         <Switch>
-          <Route exact path="/" component={LandingHome} />
+          <Route exact path="/" component={Index} />
           <Route exact path="/musicHome" component={MainLayout} />
           <Route exact path="/musicHome/library" component={LibraryLayout} />
           <Route exact path="/musicHome/library/upload" component={Upload} />
