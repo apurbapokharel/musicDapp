@@ -1,6 +1,7 @@
 import React from 'react';
 import { CssBaseline, Typography, makeStyles, Container, Button, Grid, Divider } from '@material-ui/core';
 import SampleCard from './SampleCard';
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -73,11 +74,16 @@ function StartListening() {
             ))}
           </Grid>
           <Typography align="center" color="textinherit" gutterBottom style={{marginTop:"20px", marginBottom:"-25px"}}>
-          <a href="https://metamask.io/" style={{textDecoration:"none"}}>
+          <Link to='/musicHome' style={{textDecoration:"none"}}>
             <Button variant="contained">
                 Discover More
             </Button>
-            </a>
+          </Link>  
+          {/* <a href="https://metamask.io/" style={{textDecoration:"none"}}>
+            <Button variant="contained">
+                Discover More
+            </Button>
+            </a> */}
           </Typography>
         </Container>
       </main>

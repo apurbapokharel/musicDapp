@@ -68,100 +68,10 @@ function Index()
         }        
     }
     return(
-        <>
-            
+        <> 
             <LandingHome/>
-            {/* <Upload /> */}
-            {/* <p>asdas</p> */}
         </>
     )
-    
 }
 
 export default Index
-
-// import React, { Component } from 'react';
-// import Web3 from 'web3';
-// import LandingHome from '../webComponents/landingPage/LandingHome';
-// import Upload from './upload';
-// import Music from '../../abis/Musicc.json';
-
-// import { bindActionCreators } from 'redux';
-// import { connect } from 'react-redux';
-// import * as actions from '../../store/actions';
-
-// class Index extends Component {
-
-//     // const dispatch = useDispatch();
-//     constructor(props) {
-//         super(props);
-//         const {dispatch} = props
-//         this.state = {
-//           account : '',
-//           contract: null,
-//           productCount: 0,
-//           products: [],
-//           loading: true,
-//         };
-//         this.boundActions = bindActionCreators(actions, dispatch)
-//     }
-
-//     async componentDidMount(){
-//         await this.loadWeb3()
-//         await this.loadBlockchainData()
-//       }
-   
-   
-//     async loadWeb3() {
-//         if (window.ethereum) {
-//             window.web3 = new Web3(window.ethereum) //import web3 
-//             await window.ethereum.enable()
-//         }
-//         else if (window.web3) {
-//             window.web3 = new Web3(window.web3.currentProvider)
-//         }
-//         else {
-//             window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
-//         }
-//     }
-    
-//     async loadBlockchainData(){
-//         const web3 = window.web3
-//         const accounts = await web3.eth.getAccounts()
-//         this.setState({account : accounts[0]})
-//         console.log("account is", this.state.account)
-//         const networkId = await web3.eth.net.getId()
-//         const networkData = Music.networks[networkId]
-//         if(networkData) {
-//         const contract = web3.eth.Contract(Music.abi, networkData.address)
-//         this.setState({contract: contract})
-//         this.setState({ loading : false})
-//         const musicCount = await contract.methods.musicCount().call()
-//         //Load music
-//         for (var i = 1; i <= musicCount; i++) {
-//             const music = await contract.methods.music(i).call()
-//             this.setState({
-//             products: [...this.state.products, music]
-//             })
-//         }
-//         console.log(this.state.products)
-//         }
-//         else {
-//         window.alert('Music contract not deployed to detected network.')
-//         }
-//     }
-
-
-
-//     render(){
-//         return(
-//             <> 
-//                 <LandingHome/>
-//                 <Upload {...this.boundActions}/>
-//                 {/* <p>asdas</p> */}
-//             </>
-//         )
-//     }
-// }
-
-// export default connect()(Index)
