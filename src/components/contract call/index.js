@@ -8,6 +8,8 @@ import DappTokenSaleInstance from '../../abis/DappTokenSale.json'
 import  {ADD_SONGS, ADD_MUSIC_CONTRACT, ADD_TOKEN_CONTRACT, ADD_TOKENSALE_CONTRACT, ADD_TOKENPRICEETH, ADD_TOKENSOLD, ADD_TOKENHELD, ADD_CURRENTADDRESS, ADD_TOKENPRICEWEI} from '../../store/actions'
 import { useSelector, useDispatch } from 'react-redux';
 
+import initilizeOrbitDbAction from './../../store/orbitdbActions';
+
 function Index()
 {
     // const[account, setAccount] = useState("")
@@ -15,7 +17,7 @@ function Index()
     const[loading, setLoading] = useState()
     const[musics, setMusics] = useState([])
     const dispatch = useDispatch();
-
+    
     useEffect(() => {
         async function loadData(){
             await loadWeb3()
@@ -88,7 +90,8 @@ function Index()
             dispatch(ADD_TOKENSOLD(count.toNumber()))
         }    
     }
-    return(
+    // initilizeOrbitDbAction();
+    return (
         <>
             {loading ? <p> LOADING...</p> : <LandingHome/>}
             {/* <Upload /> */}
