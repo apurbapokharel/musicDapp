@@ -65,3 +65,24 @@ export const ADD_TOKENSOLD = (value) => {
         payload: value
     }
 };
+
+export const START_ORBITDB_INITILIZE = () => {
+    return {
+        type: "INITIALIZE_ORBITDB",
+    }
+}
+
+export const CREATE_ORBITDB_SUCCESS = (orbit_db) =>{
+    return{
+        type: "CREATE_ORBITDB_SUCCESS",
+        payload: orbit_db
+    }
+}
+
+export const CREATE_ORBITDB_FAILED = (error) => {
+    return {
+        type: "CREATE_ORBITDB_FAILED",
+        payload: error,
+    }
+}
+

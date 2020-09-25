@@ -5,8 +5,26 @@ import Upload from './upload';
 import Music from '../../abis/Musicc.json';
 import DappTokenInstance from '../../abis/DappToken.json'
 import DappTokenSaleInstance from '../../abis/DappTokenSale.json'
-import  {ADD_SONGS, ADD_MUSIC_CONTRACT, ADD_TOKEN_CONTRACT, ADD_TOKENSALE_CONTRACT, ADD_TOKENPRICEETH, ADD_TOKENSOLD, ADD_TOKENHELD, ADD_CURRENTADDRESS, ADD_TOKENPRICEWEI} from '../../store/actions'
+import {
+  ADD_SONGS,
+  ADD_MUSIC_CONTRACT,
+  ADD_TOKEN_CONTRACT,
+  ADD_TOKENSALE_CONTRACT,
+  ADD_TOKENPRICEETH,
+  ADD_TOKENSOLD,
+  ADD_TOKENHELD,
+  ADD_CURRENTADDRESS,
+  ADD_TOKENPRICEWEI,
+  START_ORBITDB_INITILIZE,
+  CREATE_ORBITDB_SUCCESS,
+  CREATE_ORBITDB_FAILED,
+} from "../../store/actions";
+
 import { useSelector, useDispatch } from 'react-redux';
+
+
+import IPFS from "ipfs";
+import OrbitDB from "orbit-db";
 
 function Index()
 {
@@ -15,11 +33,13 @@ function Index()
     const[loading, setLoading] = useState()
     const[musics, setMusics] = useState([])
     const dispatch = useDispatch();
-
+    
     useEffect(() => {
         async function loadData(){
             await loadWeb3()
             await loadBlockchainData()
+            await initilizeOrbit();
+
         }
         loadData()
         // dispatch(ADD_SONGS(musics))
@@ -88,7 +108,16 @@ function Index()
             dispatch(ADD_TOKENSOLD(count.toNumber()))
         }    
     }
-    return(
+
+    async function initilizeOrbit() {
+        console.log("Disptching haha");
+        dispatch(START_ORBITDB_INITILIZE());
+        const ipfs = await IPFS.create();
+        const orbitdb = await OrbitDB.createInstance(ipfs);
+        dispatch(CREATE_ORBITDB_SUCCESS(orbitdb));
+    }
+
+    return (
         <>
             {loading ? <p> LOADING...</p> : <LandingHome/>}
             {/* <Upload /> */}
