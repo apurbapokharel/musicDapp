@@ -56,7 +56,11 @@ function Index()
         else {
           window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
         }
-      }
+        window.ethereum.on('accountsChanged', function (accounts) {
+            console.log(accounts);
+            dispatch(ADD_CURRENTADDRESS(accounts[0]))
+        })
+    }
     
     async function loadBlockchainData(){
         const web3 = window.web3
