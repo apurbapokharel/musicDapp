@@ -14,7 +14,7 @@ class ViewStats extends Component {
 
     generateHTML() {
         ReactDOM.render(<Stats address={this.state.address}/>, document.getElementById("searchResult"))
-        // ReactDOM.render(<Table address={this.state.address}/>, document.getElementById("txnHistory"))
+        ReactDOM.render(<Table address={this.state.address}/>, document.getElementById("txnHistory"))
     }
 
     render() {
