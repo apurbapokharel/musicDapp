@@ -10,9 +10,10 @@ import TimerIcon from '@material-ui/icons/Timer';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
 import { Grid, Tooltip } from '@material-ui/core';
-// import Modal from './Modal';
+import Modal from './Modal';
 import Aux from '../../hoc/Auxiliary';
 import GroupAvatars from '../songCard/AvatarGroup';
+import ReactDOM from 'react-dom'
 
 class SongCard extends Component {
         state = {
@@ -27,6 +28,9 @@ class SongCard extends Component {
         this.setState({showMe: false});
     }
 
+    renderModal = () => {
+        ReactDOM.render(<Modal address={this.state.address}/>, document.getElementById("modal"))
+    }
     render(){
         return (
         <Aux>
@@ -88,14 +92,14 @@ class SongCard extends Component {
                 </Tooltip>
                 </div>
                 <div className="sample__card__streamer1">
-                <Tooltip title="tip artist">
+                <Tooltip title="tip artist" onClick={() => this.renderModal()}>
                     <MonetizationOnIcon />
                 </Tooltip>
                 </div>
 
             </div>
         </div>
-
+        <div id="modal"></div>
         <div className="sample__back__background">
         </div>
     </div>
