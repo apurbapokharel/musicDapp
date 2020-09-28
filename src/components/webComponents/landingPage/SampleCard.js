@@ -5,6 +5,7 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import QueueIcon from '@material-ui/icons/Queue';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import TimerIcon from '@material-ui/icons/Timer';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
@@ -84,6 +85,11 @@ class SongCard extends Component {
                 <div className="sample__card__streamer1">
                 <Tooltip title="add to queue">
                     <QueueIcon />
+                </Tooltip>
+                </div>
+                <div className="sample__card__streamer1">
+                <Tooltip title="tip artist">
+                    <MonetizationOnIcon />
                 </Tooltip>
                 </div>
 
