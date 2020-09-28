@@ -13,7 +13,7 @@ class ViewStats extends Component {
                 </div>
                 <div id="content" className="">
                         <div id="txnHistory">
-                            {/* <Table /> */}
+                            <Table />
                         </div>
                 </div>    
             </div> 
