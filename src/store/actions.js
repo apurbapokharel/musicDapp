@@ -86,3 +86,23 @@ export const CREATE_ORBITDB_FAILED = (error) => {
     }
 }
 
+export const MUSIC_DB_INITILIZE = () => {
+    return {
+        type: "MUSIC_DB_INITILIZE",
+    }
+}
+
+export const MUSIC_DB_CREATE = (music_db) => {
+    return {
+        type: "MUSIC_DB_CREATE",
+        payload: music_db,
+    };
+}
+
+export const MUSIC_DB_CREATE_ERROR = (error) => {
+    return {
+        type: "MUSIC_DB_CREATE_ERROR",
+        payload: error,
+    };
+}
+

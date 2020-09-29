@@ -9,6 +9,7 @@ import tokenETHPriceAssigner from './tokenETHPriceReducer'
 import tokenSoldReducer from './tokenSoldReducer'
 import tokenWEIPriceAssigner from './tokenWEIPriceReducer'
 import orbitReducer from './orbitDbReducer'
+import musicReducer from "./musicDbReducer";
 
 const allReducers = combineReducers({
     // musics: musicAssigner,
@@ -21,6 +22,7 @@ const allReducers = combineReducers({
     tokenPriceWEI: tokenWEIPriceAssigner,
     tokenSold: tokenSoldReducer,
     orbitDb: orbitReducer,
+    musicDb: musicReducer
 });
 
 export default allReducers;
