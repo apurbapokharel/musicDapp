@@ -15,11 +15,13 @@ const musicReducer = (state = initialState, action) => {
     case "MUSIC_DB_CREATE":
       return {
         ...state,
+        music_db_loading: false,
         music_db: action.payload,
       };
     case "MUSIC_DB_CREATE_ERROR":
       return {
         ...state,
+        music_db_loading: false,
         music_db_error: action.payload,
       };
     default:
