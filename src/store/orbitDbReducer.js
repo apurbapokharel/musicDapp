@@ -23,7 +23,7 @@ const orbitReducer = (state = initialSate, action) => {
             return {
               ...state,
               loading: false,
-              error: action.payload,
+              error: action.payload
             };
         default:
             return initialSate;
