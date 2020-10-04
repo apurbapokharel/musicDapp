@@ -117,30 +117,37 @@ function Index()
         }    
     }
 
-    async function initilizeMusicDB() {
-      console.log("Disptching haha");
-      dispatch(START_ORBITDB_INITILIZE());
-      const ipfs = await IPFS.create();
-      const orbitdb = await OrbitDB.createInstance(ipfs);
-      dispatch(CREATE_ORBITDB_SUCCESS(orbitdb));
-      dispatch(MUSIC_DB_INITILIZE());
-      const defaultOptions = {
-        accessController: {
-          // write: [this.orbitdb.identity.publicKey, '02a852bbf379915ee4a9995582354e2fa89b6467d4a2c32f5ee8f1eb786c7341a8']
-          write: [
-            orbitdb.identity.publicKey,
-            "02a852bbf379915ee4a9995582354e2fa89b6467d4a2c32f5ee8f1eb786c7341a8",
-            "*",
-          ], //this is for giving access to all address
-        },
-      };
-      const docStoreOptions = {
-        defaultOptions, //making default options for docstore
-        indexBy: "uid", //lets index by uid for now
-      };
-      const musicDb = await orbitdb.docstore("musicDb", docStoreOptions);
-      dispatch(MUSIC_DB_CREATE(musicDb));
-    //  await musicDb.load();
+  async function initilizeMusicDB() {
+      try {
+        console.log("Disptching haha");
+        dispatch(START_ORBITDB_INITILIZE());
+        const ipfs = await IPFS.create();
+        const orbitdb = await OrbitDB.createInstance(ipfs);
+        dispatch(CREATE_ORBITDB_SUCCESS(orbitdb));
+        dispatch(MUSIC_DB_INITILIZE());
+        const defaultOptions = {
+          accessController: {
+            // write: [this.orbitdb.identity.publicKey, '02a852bbf379915ee4a9995582354e2fa89b6467d4a2c32f5ee8f1eb786c7341a8']
+            write: [
+              orbitdb.identity.publicKey,
+              "02a852bbf379915ee4a9995582354e2fa89b6467d4a2c32f5ee8f1eb786c7341a8",
+              "*",
+            ], //this is for giving access to all address
+          },
+        };
+        const docStoreOptions = {
+          defaultOptions, //making default options for docstore
+          indexBy: "musicHash", //lets index by uid for now
+        };
+        const musicDb = await orbitdb.docstore("musicDb", docStoreOptions);
+        dispatch(MUSIC_DB_CREATE(musicDb));
+        //  await musicDb.load();
+      }
+      catch (error) {
+        dispatch(CREATE_ORBITDB_FAILED(error));
+        dispatch(MUSIC_DB_CREATE_ERROR(error));
+      }
+     
         
     }
 
