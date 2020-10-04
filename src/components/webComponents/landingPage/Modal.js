@@ -44,7 +44,7 @@ export default function SimpleModal(props) {
     };
     resetOpenStatus();
     setAddress(props.address);
-}, [!open])
+}, [props.address])
 
   const handleClose = () => {  
     setOpen(false);    
