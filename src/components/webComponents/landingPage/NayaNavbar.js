@@ -27,7 +27,7 @@ class NayaNavbar extends Component {
                         <Link to='/trackTokens'>
                             <li className="milauni">Track Tokens</li>
                         </Link> 
-                        <Link to='/trackTokens'>
+                        <Link to='/viewStats'>
                             <li className="milauni">View Stats</li>
                         </Link> 
                         

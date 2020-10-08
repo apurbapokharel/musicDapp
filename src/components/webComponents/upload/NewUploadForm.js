@@ -5,8 +5,11 @@ import fleek from '@fleekhq/fleek-storage-js';
 import crypto from 'crypto-js';
 import randomKeyGenerator from 'random-token'
 import CircularIndeterminate from './Spinner'
+import { addMusicToOrbit } from '../../../helpers/musicDB/musicDb';
+
 require('dotenv/config');
 
+//TODO testing required!
 function Index()
 {
     const[title, setTitle] = useState("")
@@ -29,22 +32,22 @@ function Index()
     const[imageHash, setImageHash] = useState()
     const[loading, setLoading] = useState(false)
     const musicContract = useSelector(state => state.musicContract);
-
+    const musicDb = useSelector((state) => state.musicDb.music_db);
     useEffect(() => {
-      
-    }, []);
+      writeToMusicDb(musicDb);
+    }, [musicHash]);
    
     const captureMusic = (event) => {
-      event.preventDefault() 
-      const file = event.target.files[0] 
-      const reader = new window.FileReader() 
-      reader.readAsArrayBuffer(file)  
+      event.preventDefault();
+      const file = event.target.files[0];
+      const reader = new window.FileReader();
+      reader.readAsArrayBuffer(file);
       reader.onloadend = () => {
-        console.time("encrypt")
-        const wordArray = crypto.lib.WordArray.create(Buffer(reader.result))
-        const str = crypto.enc.Hex.stringify(wordArray)
-        var aesKey = randomKeyGenerator(32)
-        setAesKey(aesKey)
+        console.time("encrypt");
+        const wordArray = crypto.lib.WordArray.create(Buffer(reader.result));
+        const str = crypto.enc.Hex.stringify(wordArray);
+        var aesKey = randomKeyGenerator(32);
+        setAesKey(aesKey);
         console.log(aesKey);
         const ct = crypto.AES.encrypt(str, aesKey)
         var ctstr = ''
@@ -66,17 +69,20 @@ function Index()
     }
 
     const uploadMusicToIPFS = async () => {
+      console.log("react api secret", process.env.REACT_APP_API_SECRET);
+      console.log("react api key", process.env.REACT_APP_API_KEY);
       const input = {
         apiKey: new String(process.env.REACT_APP_API_KEY),
         apiSecret: new String(process.env.REACT_APP_API_SECRET),
         key: `my-folder/${String(title + singerName)}/song`,
         data: songData,
       };
-      console.time("upload to ipfs")
-      const result = await fleek.upload(input)
-      console.timeEnd("upload to ipfs")
-      console.log(result)
-      setMusicHash(result.hash)
+      console.time("upload to ipfs");
+      const result = await fleek.upload(input);
+      setMusicHash(result.hash);
+      console.timeEnd("upload to ipfs");
+      console.log("Music Hash from reasult is", result.hash);
+      console.log("Music hash from context is", musicHash);
     }
 
     const uploadImageToIPFS = async () => {
@@ -86,21 +92,54 @@ function Index()
         key: `my-folder/${String(title + singerName)}/image`,
         data: songImage,
       };
-      console.time("upload to ipfs")
-      const result = await fleek.upload(input)
-      console.timeEnd("upload to ipfs")
-      console.log(result)
-      setImageHash(result.hash)
+      console.time("upload to ipfs");
+      const result = await fleek.upload(input);
+      setImageHash(result.hash);
+      console.timeEnd("upload to ipfs");
+      console.log("Image hash is", imageHash);
+
     }
     
     const uploadToIPFS = async() =>{
       await uploadMusicToIPFS()
       await uploadImageToIPFS()
     } 
+  
+  const writeToMusicDb = (musicDb=musicDb) => {
 
+      console.log("write music to db", musicDb);
+      addMusicToOrbit(musicDb, {
+        "musicHash": musicHash,
+        "title": title,
+        "singerName": singerName,
+        "singerRevenue": singerRevenue,
+        "singerPublicKey": singerPublicKey,
+        "producerName": producerName,
+        "producerRevenue": producerRevenue,
+        "producerPublicKey": producerPublicKey,
+        "writerName": writerName,
+        "writerRevenue": writerRevenue,
+        "writerPublicKey": writerPublicKey,
+        "cost": cost,
+        "costPerStream": costPerStream,
+        // "songData": songData,
+        // "songImage": songImage,
+        "aesKey": aesKey,
+        "musicIdentifier": musicIdentifier,
+        "imageHash": imageHash,
+      }).then(data => {
+        console.log("Added music to db I guess", data)
+      }).catch(error => {
+        console.log("Error encountered ", error);
+      }).finally(() => {
+        console.log("Finally done everything");
+      });
+    
+  } 
     const handleSubmit = async() => {
       setLoading(true)
-      await uploadToIPFS()
+      await uploadToIPFS();
+      // console.log(String(title + singerName));
       musicContract.methods.musicAdd(title, singerName, cost, String(title + singerName), aesKey).send({from : singerPublicKey})
       setLoading(false)
     }

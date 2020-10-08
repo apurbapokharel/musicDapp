@@ -23,21 +23,21 @@
 // };
 
 // export default reducer;
-const initialState = {
-    songs: []
-};
+// const initialState = {
+//     songs: []
+// };
 
-const musicAssigner = (state = null, action ) => {
-    console.log(action.payload, action.type);
-    switch(action.type){
-      case "ASSIGNMENT":
-        // return { ...state, songs: state.songs.concat(action.payload)};
-        return  action.payload;
+// const musicAssigner = (state = null, action ) => {
+//     console.log(action.payload, action.type);
+//     switch(action.type){
+//       case "ASSIGNMENT":
+//         // return { ...state, songs: state.songs.concat(action.payload)};
+//         return  action.payload;
 
-      default:
-        return state;
-    };
-  };
+//       default:
+//         return state;
+//     };
+//   };
   
-export default musicAssigner;
+// export default musicAssigner;
 
