@@ -46,7 +46,6 @@ function Index()
 
         }
         loadData()
-        // dispatch(ADD_SONGS(musics))
     }, []);
    
     async function loadWeb3() {
@@ -69,6 +68,7 @@ function Index()
     async function loadBlockchainData(){
         const web3 = window.web3
         const accounts = await web3.eth.getAccounts()
+        const songs = []
         // setAccount(accounts[0]) //works
         dispatch(ADD_CURRENTADDRESS(accounts[0]))
         const networkId = await web3.eth.net.getId()
@@ -87,10 +87,11 @@ function Index()
                 // this.setState({
                 //     products: [...this.state.products, music]
                 // })
-                setMusics([...musics, music]) //works
+                // setMusics([...musics, music]) //works
+                songs.push(music)
             }
-            // console.log(musics)
-            // dispatch(ADD_SONGS(musics))
+            console.log(songs)
+            dispatch(ADD_SONGS(songs))
         }
         else {
             window.alert('Music contract not deployed to detected network.')
