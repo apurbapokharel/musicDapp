@@ -28,7 +28,6 @@
 // };
 
 const musicAssigner = (state = null, action ) => {
-    console.log(action.payload, action.type);
     switch(action.type){
       case "ADD_SONGS_ASSIGNMENT":
         return  action.payload;

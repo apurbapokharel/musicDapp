@@ -29,17 +29,15 @@ class SongCard extends Component {
     }
 
     renderModal = () => {
-        ReactDOM.render(<Modal address={this.state.address}/>, document.getElementById("modal"))
+        ReactDOM.render(<Modal 
+            name={this.props.music.musicName} 
+            id={this.props.music.id} 
+        />, document.getElementById("modal"))
     }
     render(){
+        console.log("props", this.props.music);
         return (
         <Aux>
-        {/* {
-        this.state.showMe ?
-        <div><Modal /></div>
-        : null
-        } */}
-        {/* <Modal show={this.state.showMe} modalClosed={this.modalCancelHandler}/> */}
         <div className="sample__game" key="item.key">
 
         <div className="sampleCard__rank">
@@ -47,12 +45,17 @@ class SongCard extends Component {
         </div>
 
         <div className="sample__front">
+            {/* <img className="sample__thumbnail" src="https://apurbapokharel-team-bucket.storage.fleek.co/my-folder/Enter%20SandmanMetallica/image" alt="" /> */}
             <img className="sample__thumbnail" src="https://i.pinimg.com/originals/bc/8c/37/bc8c375f43fe97c0cb43818ebe3436bb.jpg" alt="" />
-            <h3 className="sample__name">The Beaten Path</h3>
+
+            <h3 className="sample__name">{this.props.music.musicName}</h3>
+            {/* <h3 className="sample__name"> Beaten Path </h3> */}
             {/* <h3 className="sample__name">{this.props.title}</h3> */}
             <Grid container className="sample__stats__streamers">
                 <Grid item xs={8} className="sample__stats">
-                    <p>Taylor Swift</p>
+                    <p>{this.props.music.artistName}</p>
+                    {/* <p>Taylor Swift</p> */}
+
                 </Grid>
                
             </Grid>
