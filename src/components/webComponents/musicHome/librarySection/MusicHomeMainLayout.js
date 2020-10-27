@@ -7,18 +7,10 @@ import HomeBody from '../homeSection/HomeBody';
 import Upload from '../../../contract call/upload'
 
 function TheLibrary(props) {
-    // Upload()
     return (
         <div className="player">
             <div className="player__body">
                 <Sidebar />
-                {/* <Body /> */}
-                {/* {
-                    props.showHome ?
-                        <div> <Body /> </div>
-                :
-                    <div> <Body /> </div>
-                } */}
                 <HomeBody />
             </div>
             <div className="footer">

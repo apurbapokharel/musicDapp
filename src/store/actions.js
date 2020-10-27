@@ -3,7 +3,6 @@
 // export const VIEW_SONG = 'VIEW_SONG';
 
 export const ADD_SONGS = (value) => {
-    console.log(value);
     return{
         type:"ADD_SONGS_ASSIGNMENT",
         payload: value

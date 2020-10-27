@@ -87,26 +87,24 @@ function Sidebar() {
                 </button> */}
 
                 <br />
-                <strong className="sidebar__title">
+                {/* <strong className="sidebar__title">
                     PLAYLISTS
-                    {/* <PlayForWorkIcon /> */}
                 </strong>
                 <hr />
-                {/* <SidebarSongRow /> */}
-            <div className="sidebar__songlist">
-                <ul className="loi">
-                {
-                    songs.map((song, i) =>
-                    <li className={'sidebarSongContainer' + (currentSong === i ? 'selected' : '')} key={i} onClick={() => { SetCurrent(i); }} >
-                        <Grid container className="sidebar__song__row">
-                            <MusicNoteIcon className="sidbar__songrow__icon"/>
-                            <span className="song" style={{fontSize: "14px"}}>{song[0]}</span>
-                        </Grid>
-                    </li>
-                    )
-                }
-                </ul>
-            </div>
+                <div className="sidebar__songlist">
+                    <ul className="loi">
+                    {
+                        songs.map((song, i) =>
+                        <li className={'sidebarSongContainer' + (currentSong === i ? 'selected' : '')} key={i} onClick={() => { SetCurrent(i); }} >
+                            <Grid container className="sidebar__song__row">
+                                <MusicNoteIcon className="sidbar__songrow__icon"/>
+                                <span className="song" style={{fontSize: "14px"}}>{song[0]}</span>
+                            </Grid>
+                        </li>
+                        )
+                    }
+                    </ul>
+                </div> */}
             </div>
         </Aux>
     );

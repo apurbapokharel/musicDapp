@@ -14,8 +14,8 @@ function Header() {
                 />
             </div>
             <div className="header__right">
-                <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQElkWA44urLoqZh1_hjDV9ES3XJyusvP52Iw&usqp=CAU" alt="RQ" />
-                <h4>Taylor Swift</h4>
+                {/* <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQElkWA44urLoqZh1_hjDV9ES3XJyusvP52Iw&usqp=CAU" alt="RQ" /> */}
+                {/* <h4>Taylor Swift</h4> */}
             </div>
         </div>
     )
