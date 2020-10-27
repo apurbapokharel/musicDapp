@@ -29,13 +29,18 @@ class SongCard extends Component {
     }
 
     renderModal = () => {
-        ReactDOM.render(<Modal 
+        ReactDOM.render(
+        <Modal 
             name={this.props.music.musicName} 
             id={this.props.music.id} 
-        />, document.getElementById("modal"))
+            contractAddress={this.props.contractAddress}
+            currentAccount={this.props.currentAccount}
+        />, 
+        document.getElementById("modal")
+        )
     }
     render(){
-        console.log("props", this.props.music);
+        // console.log("props", this.props.music);
         return (
         <Aux>
         <div className="sample__game" key="item.key">

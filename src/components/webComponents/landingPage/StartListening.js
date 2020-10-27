@@ -41,6 +41,8 @@ const cards = [1, 2, 3, 4];
 function StartListening() {
   const classes = useStyles();
   const musics = useSelector(state => state.musics);
+  const musicContract = useSelector(state => state.musicContract)
+  const currentAccount = useSelector(state => state.currentAccount)
 
   return (
     <React.Fragment>
@@ -62,7 +64,11 @@ function StartListening() {
               cards.map((card, key) => (
                 <Grid item key={card} xs={12} sm={6} md={3}>
                   <div style={{marginLeft: "38px", marginTop:"25px"}}>
-                    <SampleCard music={musics[key]}/>
+                    <SampleCard 
+                      music={musics[key]}
+                      contractAddress={musicContract}
+                      currentAccount={currentAccount}
+                    />
                   </div>
                 </Grid>
               ))

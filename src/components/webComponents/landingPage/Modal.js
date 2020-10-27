@@ -5,7 +5,6 @@ import { Icon, Input, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { useSelector } from 'react-redux';
 
 function getModalStyle() {
   const top = 50 ;
@@ -44,8 +43,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SimpleModal(props) {
-  const musicContract = useSelector(state => state.musicContract)
-  const currentAccount = useSelector(state => state.currentAccount)
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -60,6 +57,7 @@ function SimpleModal(props) {
     };
     resetOpenStatus();
     setAddress(props.id);
+    console.log('current account is ', props.currentAccount);
   }, [props.name])
 
   const handleClose = () => {  
@@ -69,8 +67,8 @@ function SimpleModal(props) {
   const body = (
     <form style={modalStyle} className={classes.paper} onSubmit={(event) => {
         event.preventDefault();
+        props.contractAddress.methods.musicTip(props.id, price).send({ from : props.currentAccount })
         handleClose();
-        // musicContract.methods.musicTip(props.id, price).send({ from : currentAccount })
       }}>
         <TextField value={price} id="price" label="Price eg 1.2 DAPP" className={classes.text} type="text" onChange={e => setPrice(e.target.value)}  />
         <br/>
