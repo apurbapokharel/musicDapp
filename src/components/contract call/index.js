@@ -22,17 +22,14 @@ import {
   MUSIC_DB_CREATE,
   MUSIC_DB_CREATE_ERROR,
 } from "../../store/actions";
-
 import { useSelector, useDispatch } from 'react-redux';
-
-
+import { useHistory } from "react-router-dom";
 import IPFS from "ipfs";
 import OrbitDB from "orbit-db";
 
 function Index()
 {
-    // const[account, setAccount] = useState("")
-    // const[musicContract, setMusicContract] = useState()
+    const history = useHistory();
     const[loading, setLoading] = useState()
     const[musics, setMusics] = useState([])
     const dispatch = useDispatch();
@@ -62,6 +59,7 @@ function Index()
         window.ethereum.on('accountsChanged', function (accounts) {
             console.log(accounts);
             dispatch(ADD_CURRENTADDRESS(accounts[0]))
+            history.push('/')
         })
     }
     
