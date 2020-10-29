@@ -20,14 +20,14 @@ function Body() {
             <Header />
 
             <div className="library__body__info">
-                <img 
+                {/* <img 
                     src="https://i.pinimg.com/236x/27/7c/15/277c15409a7b07da1c169933e7692828--taylor-swift-curls-pictures-of-taylor-swift.jpg"
                     alt=""
-                />
+                /> */}
                 <div className="library__body__infoText">
                     <strong>PLAYLIST</strong>
                     <h2>Enjoy Your Playlist</h2>
-                    <p>Your playlist of favorites and downloaded music. Enjoy new music and deep cuts picked by you.</p>
+                    <p>Your playlist of favorite music.</p>
                 </div>
             </div>
 
@@ -43,9 +43,6 @@ function Body() {
                 </Tooltip>
             </div> 
             {/* List of songs */}
-            {/* {discover_weekly?.tracks.items.map(item => (
-                <SongRow track={item.track} />
-            ))} */}
             <ul className="libraryBody__loi">
             {
                 songs.map((song, i) =>

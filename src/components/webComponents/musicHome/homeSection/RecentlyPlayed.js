@@ -1,6 +1,7 @@
 import React from 'react';
 import {Grid, Typography, CssBaseline, makeStyles, Container } from '@material-ui/core';
 import SampleCard from '../../landingPage/SampleCard';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -40,6 +41,9 @@ const cards = [1, 2, 3, 4];
 
 function RecentlyPlayed() {
   const classes = useStyles();
+  const musics = useSelector(state => state.musics);
+  const musicContract = useSelector(state => state.musicContract)
+  const currentAccount = useSelector(state => state.currentAccount)
 
   return (
     <React.Fragment>
@@ -55,9 +59,13 @@ function RecentlyPlayed() {
               <h1 style={{fontSize:"1.1rem"}}>Recently Played</h1>
             </Typography>
           <Grid container spacing={4}>
-            {cards.map(card => (
+            {cards.map((card, key) => (
               <Grid item xs={12} sm={4} md={3}>
-                <SampleCard />
+                <SampleCard 
+                  music={musics[key]}
+                  contractAddress={musicContract}
+                  currentAccount={currentAccount}
+                />
               </Grid>
             ))}
           </Grid>
