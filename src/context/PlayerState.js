@@ -7,7 +7,10 @@ import {
   SET_CURRENT_SONG,
   TOGGLE_RANDOM,
   TOGGLE_REPEAT,
-  TOGGLE_PLAYING
+  TOGGLE_PLAYING,
+  SET_CURRENT_SONGG,
+  SET_CURRENT_ARTIST,
+  SET_SONG_SRC
 } from './types'
 
 const PlayerState = props => {
@@ -17,7 +20,10 @@ const PlayerState = props => {
     repeat: false,
     random: false,
     playing: false,
-    audio: null
+    audio: null,
+    currentSongg: '---',
+    currentArtist: '---',
+    songSrc: null
   }
   const [state, dispatch] = useReducer(playerReducer, initialState);
 
@@ -25,7 +31,9 @@ const PlayerState = props => {
   const togglePlaying = () => dispatch({ type: TOGGLE_PLAYING, data: state.playing ? false : true })
 
   // Set current song
-  const SetCurrent = id => dispatch({ type: SET_CURRENT_SONG, data: id })
+  const SetCurrent = id => {
+    dispatch({ type: SET_CURRENT_SONG, data: id })
+  }
 
   // Prev song
   const prevSong = () => {
@@ -65,6 +73,16 @@ const PlayerState = props => {
     }
   }
 
+  //set current song
+  const setCurrentSong = songName => {
+    dispatch({ type: SET_CURRENT_SONGG, data: songName })
+  }
+
+  //set current artist
+  const setCurrentArtist= artistName => dispatch({ type: SET_CURRENT_ARTIST, data: artistName })
+
+  //set song source
+  const setSongSource = byteArray => dispatch({ type: SET_SONG_SRC, data: byteArray})
 
   return <playerContext.Provider
     value={{ 
@@ -74,13 +92,19 @@ const PlayerState = props => {
       random: state.random,
       playing: state.playing,
       audio: state.audio,
+      songName: state.currentSongg,
+      artistName: state.currentArtist,
+      songSrc: state.songSrc,
       nextSong,
       prevSong,
       SetCurrent,
       toggleRandom,
       toggleRepeat,
       togglePlaying,
-      handleEnd
+      handleEnd,
+      setCurrentSong,
+      setCurrentArtist,
+      setSongSource
     }}>
 
     {props.children}

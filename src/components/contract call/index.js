@@ -145,14 +145,8 @@ function Index()
       catch (error) {
         dispatch(CREATE_ORBITDB_FAILED(error));
         dispatch(MUSIC_DB_CREATE_ERROR(error));
-      }
-     
-        
+      }        
     }
-
-    
-
-
     return (
         <>
             {loading ? <p> LOADING...</p> : <LandingHome/>}

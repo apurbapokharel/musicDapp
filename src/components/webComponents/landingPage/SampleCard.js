@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect, Component } from 'react';
 import './sampleCard.css';
-
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -14,21 +13,129 @@ import Modal from './Modal';
 import Aux from '../../hoc/Auxiliary';
 import GroupAvatars from '../songCard/AvatarGroup';
 import ReactDOM from 'react-dom'
+import { useContext } from 'react';
+import playerContext from '../../../context/playerContext';
+import fleek from '@fleekhq/fleek-storage-js';
+import crypto from 'crypto-js';
 
-class SongCard extends Component {
-        state = {
-          showMe: false
-        }
-    clickHandler = () => {
-        const doesShow = this.state.showMe;
-        this.setState({showMe : !doesShow});
+// class SongCard extends Component {
+//     state = {
+//         showMe: false
+//     }
+//     clickHandler = () => {
+//         const doesShow = this.state.showMe;
+//         this.setState({showMe : !doesShow});
+//     }
+
+//     modalCancelHandler = () => {
+//         this.setState({showMe: false});
+//     }
+
+//     renderModal = () => {
+//         ReactDOM.render(
+//         <Modal 
+//             name={this.props.music.musicName} 
+//             id={this.props.music.id} 
+//             contractAddress={this.props.contractAddress}
+//             currentAccount={this.props.currentAccount}
+//         />, 
+//         document.getElementById("modal")
+//         )
+//     }
+//     render(){
+//         // console.log("props", this.props.music);
+//         const { SetCurrent } = useContext(playerContext)
+//         return (
+//         <Aux>
+//         <div className="sample__game" key="item.key">
+
+//         <div className="sampleCard__rank">
+//             <FavoriteBorderIcon />
+//         </div>
+
+//         <div className="sample__front">
+//             {/* <img className="sample__thumbnail" src="https://apurbapokharel-team-bucket.storage.fleek.co/my-folder/Enter%20SandmanMetallica/image" alt="" /> */}
+//             <img className="sample__thumbnail" src="https://i.pinimg.com/originals/bc/8c/37/bc8c375f43fe97c0cb43818ebe3436bb.jpg" alt="" />
+
+//             <h3 className="sample__name">{this.props.music.musicName}</h3>
+//             {/* <h3 className="sample__name"> Beaten Path </h3> */}
+//             {/* <h3 className="sample__name">{this.props.title}</h3> */}
+//             <Grid container className="sample__stats__streamers">
+//                 <Grid item xs={8} className="sample__stats">
+//                     <p>{this.props.music.artistName}</p>
+//                     {/* <p>Taylor Swift</p> */}
+
+//                 </Grid>
+               
+//             </Grid>
+//         </div>
+//         <div className="sample__back">
+//             <div className="sample__streaming__info">
+//                 <p className="sample__game__stat">89.5k<span>Streams</span></p>
+//                 <p className="sample__game__stat">21.7k<span>Downloads</span></p>
+//             </div>
+
+//             <button 
+//                 className="sample__btn"
+//                 onClick={() => this.clickHandler()}
+//             >
+//                 View Song Details
+//             </button>
+
+//             <div className="sample__streamer">
+//                 <div className="sample__card__streamer1">
+//                 <Tooltip title="download">
+//                     <CloudDownloadIcon />
+//                 </Tooltip>
+//                 </div>               
+//                 <div className="sample__card__streamer2">
+//                 <Tooltip title="play">
+//                     <PlayCircleFilledWhiteIcon onClick={() => SetCurrent(this.props.music.id)}/>
+//                 </Tooltip>
+//                 </div> 
+//                 <div className="sample__card__streamer2">
+//                 <Tooltip title="add to favourite">
+//                     <FavoriteIcon />
+//                 </Tooltip>
+//                 </div>                
+//                 <div className="sample__card__streamer1">
+//                 <Tooltip title="add to queue">
+//                     <QueueIcon />
+//                 </Tooltip>
+//                 </div>
+//                 <div className="sample__card__streamer1">
+//                 <Tooltip title="tip artist" onClick={() => this.renderModal()}>
+//                     <MonetizationOnIcon />
+//                 </Tooltip>
+//                 </div>
+
+//             </div>
+//         </div>
+//         <div id="modal"></div>
+//         <div className="sample__back__background">
+//         </div>
+//     </div>
+//     </Aux>
+// )
+// }
+// }
+ 
+
+function SongCard(props) {
+
+    const[showMe, setShowMe] = useState(false)
+    const { SetCurrent, setCurrentSong, setCurrentArtist, setSongSource } = useContext(playerContext)
+
+    const clickHandler = () => {
+        const doesShow = showMe
+        setShowMe(!doesShow)
     }
 
-    modalCancelHandler = () => {
-        this.setState({showMe: false});
+    const modalCancelHandler = () => {
+        setShowMe(false)
     }
 
-    renderModal = () => {
+    const renderModal = () => {
         ReactDOM.render(
         <Modal 
             name={this.props.music.musicName} 
@@ -39,9 +146,76 @@ class SongCard extends Component {
         document.getElementById("modal")
         )
     }
-    render(){
-        // console.log("props", this.props.music);
-        return (
+
+    function uintToString(uintArray) {
+        var decodedStr = new TextDecoder('utf-8').decode(uintArray)
+        return decodedStr  
+    }
+
+    function wordToByteArray(word, length) {
+        var ba = [],xFF = 0xFF
+        if (length > 0)
+         ba.push(word >>> 24)
+        if (length > 1)
+         ba.push((word >>> 16) & xFF)
+        if (length > 2)
+         ba.push((word >>> 8) & xFF)
+        if (length > 3)
+         ba.push(word & xFF)
+        return ba
+    }
+      
+    function wordArrayToByteArray(wordArray, length) {
+        if (wordArray.hasOwnProperty("sigBytes") && wordArray.hasOwnProperty("words")) {
+            length = wordArray.sigBytes
+        wordArray = wordArray.words
+        }
+    
+        var result = [],bytes,i = 0
+        while (length > 0) {
+            bytes = wordToByteArray(wordArray[i], Math.min(4, length))
+            length -= bytes.length
+            result.push(bytes)
+            i++
+        }
+    return result.flat(Infinity) 
+    }
+
+    const decrypt = async() => {
+        //get data
+        const input = {
+            apiKey: new String(process.env.REACT_APP_API_KEY),
+            apiSecret: new String(process.env.REACT_APP_API_SECRET),
+            key: `my-folder/${String(props.music.musicIdentifier)}/song`,
+            getOptions: ['hash', 'data', 'publicUrl', 'key']      
+        };
+        console.time("get file");
+        const result = await fleek.get(input);
+        console.timeEnd("get file");
+        //decrypt
+        console.time("decrypt")
+        var str = uintToString(result.data)
+        const decrypted = crypto.AES.decrypt(str, props.music.aesKey).toString(crypto.enc.Utf8)
+        // str = decrypted.toString(crypto.enc.Utf8) //convert word array to string of base utf8
+        const wordArray = crypto.enc.Hex.parse(decrypted) //c8 new word array
+        var text =  await wordArrayToByteArray(wordArray, wordArray.length )
+        console.timeEnd("decrypt")
+        console.log(text)
+        //c8ting blob
+        var arrayBufferView = new Uint8Array(text)
+        var blob = new Blob( [ arrayBufferView ], { type: 'music/mp3' } )
+        var songSrc = URL.createObjectURL(blob)
+        setSongSource(songSrc)
+    }
+
+    const assignVarToState = async() => {
+
+        await decrypt()
+        SetCurrent((props.music.id).toNumber())
+        setCurrentSong(props.music.musicName)
+        setCurrentArtist(props.music.artistName)
+    }
+    return (
         <Aux>
         <div className="sample__game" key="item.key">
 
@@ -53,12 +227,12 @@ class SongCard extends Component {
             {/* <img className="sample__thumbnail" src="https://apurbapokharel-team-bucket.storage.fleek.co/my-folder/Enter%20SandmanMetallica/image" alt="" /> */}
             <img className="sample__thumbnail" src="https://i.pinimg.com/originals/bc/8c/37/bc8c375f43fe97c0cb43818ebe3436bb.jpg" alt="" />
 
-            <h3 className="sample__name">{this.props.music.musicName}</h3>
+            <h3 className="sample__name">{props.music.musicName}</h3>
             {/* <h3 className="sample__name"> Beaten Path </h3> */}
             {/* <h3 className="sample__name">{this.props.title}</h3> */}
             <Grid container className="sample__stats__streamers">
                 <Grid item xs={8} className="sample__stats">
-                    <p>{this.props.music.artistName}</p>
+                    <p>{props.music.artistName}</p>
                     {/* <p>Taylor Swift</p> */}
 
                 </Grid>
@@ -73,7 +247,7 @@ class SongCard extends Component {
 
             <button 
                 className="sample__btn"
-                onClick={() => this.clickHandler()}
+                onClick={() => clickHandler()}
             >
                 View Song Details
             </button>
@@ -86,7 +260,7 @@ class SongCard extends Component {
                 </div>               
                 <div className="sample__card__streamer2">
                 <Tooltip title="play">
-                    <PlayCircleFilledWhiteIcon />
+                    <PlayCircleFilledWhiteIcon onClick={() => assignVarToState()}/>
                 </Tooltip>
                 </div> 
                 <div className="sample__card__streamer2">
@@ -100,7 +274,7 @@ class SongCard extends Component {
                 </Tooltip>
                 </div>
                 <div className="sample__card__streamer1">
-                <Tooltip title="tip artist" onClick={() => this.renderModal()}>
+                <Tooltip title="tip artist" onClick={() => renderModal()}>
                     <MonetizationOnIcon />
                 </Tooltip>
                 </div>
@@ -112,7 +286,6 @@ class SongCard extends Component {
         </div>
     </div>
     </Aux>
-)
-}
+    )
 }
 export default SongCard;
