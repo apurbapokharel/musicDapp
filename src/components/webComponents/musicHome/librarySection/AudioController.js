@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import playerContext from '../../../../context/playerContext';
 import './AudioController.css';
-
 import PauseIcon from '@material-ui/icons/Pause';
 import ShuffleIcon from '@material-ui/icons/Shuffle';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
@@ -22,6 +21,9 @@ const {
     repeat,
     random,
     playing,
+    songName,
+    artistName,
+    songSrc,
     toggleRandom,
     toggleRepeat,
     togglePlaying,
@@ -31,7 +33,7 @@ const {
     const audio = useRef('audio_tag');
 
     // self state
-    const [statevolum, setStateVolum] = useState(0.3)
+    const [statevolum, setStateVolum] = useState(0.1)
     const [dur, setDur] = useState(0)
     const [currentTime, setCurrentTime] = useState(0)
 
@@ -50,12 +52,11 @@ const {
         audio.current.currentTime = compute
     }
     
-    // const { dispatch, initialState } = currentSong;
-
     useEffect(() => {
         audio.current.volume = statevolum;
         if (playing) { toggleAudio() }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        console.log('the id is', currentSong);
+        console.log('the song stats are', songName, artistName)
     }, [currentSong])
 
     return (
@@ -67,7 +68,7 @@ const {
             ref={audio}
             type="audio/mpeg"
             preload='true'
-            src={songs[currentSong][2]}
+            src={songSrc}
         />
         
         <Grid item xs={3} className="footer__left">
@@ -77,8 +78,8 @@ const {
             alt=""
         />
         <div className="footer__songInfo">
-            <h4>{songs[currentSong][0]}</h4>
-            <p>{songs[currentSong][1]}</p>
+            <h4>{songName}</h4>
+            <p>{artistName}</p>
         </div>
         </Grid>
         <Grid item xs={6} className="footer__center">
@@ -120,7 +121,9 @@ const {
                     className="muiSlider-root"
                     style={{color:"rgb(6,253,68)", marginLeft:"8px", marginRight:"8px"}}
                 />
-                <span>{fmtMSS(dur)}</span>
+                <span>
+                    { currentSong == 0 ? '0:00' : fmtMSS(dur) }
+                </span>
             </Grid>
 
         </Grid>
