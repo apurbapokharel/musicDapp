@@ -1,6 +1,11 @@
-pragma solidity 0.5.16;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.4.0 <0.8.0;
+
+import '@openzeppelin/contracts/math/SafeMath.sol';
 
 contract DappToken{
+
+    using SafeMath for uint256;
 
     string public name = "DApp Token";
     string public symbol = "DAPP";
@@ -14,23 +19,15 @@ contract DappToken{
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 
 
-    constructor(uint256 _initialSupply) public {
+    constructor(uint256 _initialSupply) {
         balanceOf[msg.sender] = _initialSupply;
         totalSupply = _initialSupply;
     }
 
-    // function transfer(address _to, uint256 _value) public returns (bool success){
-    //     require(balanceOf[msg.sender] >= _value, ' _value greater than the msg.sender balance');
-    //     balanceOf[msg.sender] -= _value;
-    //     balanceOf[_to] += _value;
-    //     emit Transfer(msg.sender, _to, _value);
-    //     return true;
-    // }
-
     function transfer(address _to, uint256 _value, address _from) public returns (bool success){
         require(balanceOf[_from] >= _value, ' _value greater than the msg.sender balance');
-        balanceOf[_from] -= _value;
-        balanceOf[_to] += _value;
+        balanceOf[_from] = balanceOf[_from].sub(_value);
+        balanceOf[_to] = balanceOf[_to].add(_value);
         emit Transfer(_from, _to, _value);
         return true;
     }
@@ -44,9 +41,9 @@ contract DappToken{
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success){
         require(_value <= allowance[_from][msg.sender], 'approved token insufficient');
         require(_value <= balanceOf[_from], 'insufficient token balance of account');
-        balanceOf[_from] -= _value;
-        balanceOf[_to] += _value;
-        allowance[_from][msg.sender] -= _value;
+        balanceOf[_from] = balanceOf[_from].sub(_value);
+        balanceOf[_to] = balanceOf[_to].add(_value);
+        allowance[_from][msg.sender] = allowance[_from][msg.sender].sub(_value);
         emit Transfer(_from, _to, _value);
         return true;
     }

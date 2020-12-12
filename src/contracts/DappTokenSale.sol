@@ -1,8 +1,12 @@
-pragma solidity 0.5.16;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.4.0 <0.8.0;
 
 import './DappToken.sol';
+import '@openzeppelin/contracts/math/SafeMath.sol';
 
 contract DappTokenSale{
+
+    using SafeMath for uint256;
 
     address admin;
     DappToken public tokenContract;
@@ -12,38 +16,22 @@ contract DappTokenSale{
 
     event Sell(address _buyer, uint256 _amount);
 
-    constructor(DappToken _tokenContract, uint256 _tokenPrice) public{
+    constructor(DappToken _tokenContract, uint256 _tokenPrice) {
         admin = msg.sender;
         tokenContract = _tokenContract;
         tokenPrice = _tokenPrice;
     } 
 
-    function multiply(uint x, uint y) internal pure returns (uint z) {
-        require(y == 0 || (z = x * y) / y == x);
-    }
-
-    // function buyTokens(uint256 _numberOfTokens) public payable {
-    //     require(msg.value == multiply(_numberOfTokens, tokenPrice), 'insifficient value sent by the msg.sender');
-    //     //currentContract = address(this);
-    //     // currentContract = this; //it cannot be implicitly converted this way
-    //     require(tokenContract.balanceOf(address(this)) >= _numberOfTokens, 'contract does not have sufficient token');
-    //     //implicit converstion of SC to address is given by this
-    //     //explict conversion of SC to address is given by address(this)
-    //     require(tokenContract.transfer(msg.sender, _numberOfTokens), 'unable to call transfer fucntion of tokencontract');
-    //     tokensSold += _numberOfTokens;
-    //     emit Sell(msg.sender, _numberOfTokens);
-    // }
-
     function buyTokens(uint256 _numberOfTokens, address _caller) public payable {
-        require(msg.value == multiply(_numberOfTokens, tokenPrice), 'insifficient value sent by the msg.sender');
+        require(msg.value == _numberOfTokens.mul(tokenPrice), 'insifficient value sent by the msg.sender');
         //currentContract = address(this);
         // currentContract = this; //it cannot be implicitly converted this way
         require(tokenContract.balanceOf(address(this)) >= _numberOfTokens, 'contract does not have sufficient token');
         //implicit converstion of SC to address is given by this
         //explict conversion of SC to address is given by address(this)
         // address _from = address(this);
-        require(tokenContract.transfer(_caller, _numberOfTokens, address(this)), 'unable to call transfer fucntion of tokencontract');
-        tokensSold += _numberOfTokens;
+        require(tokenContract.transfer(_caller, _numberOfTokens, address(this)), 'unable to call transfer function of tokencontract');
+        tokensSold = tokensSold.add(_numberOfTokens);
         emit Sell(_caller, _numberOfTokens);
     }
 
@@ -55,6 +43,5 @@ contract DappTokenSale{
         //contract cannot be deleted in the BC but the varibales will be reset 
         //thats the way to selfdestruct in solidity
         //selfdestruct(admin);
-        //write a test to see if the tokenprice is 0 i.e reset after self destruct
     }
 }
