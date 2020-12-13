@@ -23,21 +23,26 @@ contract DappTokenSale{
     } 
 
     function buyTokens(uint256 _numberOfTokens, address _caller) public payable {
-        require(msg.value == _numberOfTokens.mul(tokenPrice), 'insifficient value sent by the msg.sender');
+        require(msg.value == (_numberOfTokens.mul(tokenPrice)).div(10**10), 'insifficient value sent by the msg.sender');
         //currentContract = address(this);
         // currentContract = this; //it cannot be implicitly converted this way
         require(tokenContract.balanceOf(address(this)) >= _numberOfTokens, 'contract does not have sufficient token');
         //implicit converstion of SC to address is given by this
         //explict conversion of SC to address is given by address(this)
         // address _from = address(this);
-        require(tokenContract.transfer(_caller, _numberOfTokens, address(this)), 'unable to call transfer function of tokencontract');
+        require(tokenContract.tTransfer(_caller, _numberOfTokens, address(this)), 'unable to call transfer function of tokencontract');
+        
+        //require(tokenContract.transfer(_caller, _numberOfTokens), 'unable to call transfer function of tokencontract');
+        
         tokensSold = tokensSold.add(_numberOfTokens);
         emit Sell(_caller, _numberOfTokens);
     }
 
     function endSale() public {
         require(msg.sender == admin,'msg.sender is not the admin');
-        require(tokenContract.transfer(admin, tokenContract.balanceOf(address(this)), address(this)),'unable to transfer remaining token to admin');
+        require(tokenContract.tTransfer(admin, tokenContract.balanceOf(address(this)), address(this)),'unable to transfer remaining token to admin');
+        
+        //require(tokenContract.transfer(admin, tokenContract.balanceOf(address(this))),'unable to transfer remaining token to admin');
 
         //selfdistruct garna ni milcha
         //contract cannot be deleted in the BC but the varibales will be reset 

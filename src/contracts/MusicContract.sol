@@ -106,7 +106,7 @@ contract MusicContract{
     
     function redeemTokens(uint256 _amountOfToken, address _owner) public payable{
         //check msg.value sent by _owner
-        require(msg.value == _amountOfToken.mul(tokenPrice), 'insifficient value sent by the msg.sender');
+        require(msg.value == (_amountOfToken.mul(tokenPrice)).div(10**10), 'insifficient value sent by the msg.sender');
         
         //check validity of address  _owner
         require(_owner != address(0),'Owner cannot have 0 address');
@@ -120,8 +120,10 @@ contract MusicContract{
         //calculate remaining redeemabletokens and update user struct
         balanceOf[_owner].redeemableBalance = balanceOf[_owner].redeemableBalance.sub(_amountOfToken);
         //call transfer method of DappToken
-        require(tokenContract.transfer(_owner, _amountOfToken, address(this)), 'unable to call transfer function of tokencontract');
+        require(tokenContract.tTransfer(_owner, _amountOfToken, address(this)), 'unable to call transfer function of tokencontract');
         
+        //require(tokenContract.transfer(_owner, _amountOfToken), 'unable to call transfer function of tokencontract');
+
         //emit event
         emit RedeemTokens(_owner, _amountOfToken);
     }

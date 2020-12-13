@@ -90,7 +90,10 @@ contract Musicc {
         require(musicContract.storeAndAllocateTokens(_product.price, _musicIdentifier), 'unable to call storeAndAllocateToken');
 
         //trasnfer the total token to musicContract
-        require(tokenContract.transfer(address(musicContract), _tokenPrice, msg.sender), 'unable to call transfer fucntion of tokencontract');
+        require(tokenContract.tTransfer(address(musicContract), _tokenPrice, msg.sender), 'unable to call transfer fucntion of tokencontract');
+       
+        //require(tokenContract.transfer(address(musicContract), _tokenPrice), 'unable to call transfer fucntion of tokencontract');
+
 
         //trigger an event 
         emit MusicPurchased(_product.musicName, _product.artistName, _product.price, _product.musicIdentifier, _product.aesKey);
@@ -108,7 +111,9 @@ contract Musicc {
         require(musicContract.storeAndAllocateTokens(_tokenNumber, _musicIdentifier), 'unable to call storeAndAllocateToken');
 
         //pay the seller by tranfering token
-        require(tokenContract.transfer(address(musicContract), _tokenNumber, msg.sender), 'unable to call transfer fucntion of tokencontract');
+        require(tokenContract.tTransfer(address(musicContract), _tokenNumber, msg.sender), 'unable to call transfer fucntion of tokencontract');
+        
+        //require(tokenContract.transfer(address(musicContract), _tokenNumber), 'unable to call transfer fucntion of tokencontract');
 
         //trigger an event
         emit MusicTipped(_product.musicName, _product.artistName, _tokenNumber, _product.musicIdentifier, _product.aesKey);
