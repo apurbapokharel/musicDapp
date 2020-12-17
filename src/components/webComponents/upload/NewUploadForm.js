@@ -6,6 +6,7 @@ import crypto from 'crypto-js';
 import randomKeyGenerator from 'random-token'
 import CircularIndeterminate from './Spinner'
 import { addMusicToOrbit } from '../../../helpers/musicDB/musicDb';
+import { compareSongHash, postSongHash, postSongs } from '../../API Caller/RESTFetcher';
 
 require('dotenv/config');
 
@@ -31,21 +32,48 @@ function Index()
     const[musicHash, setMusicHash] = useState()
     const[imageHash, setImageHash] = useState()
     const[loading, setLoading] = useState(false)
+    const[dataToHash, setDataToHash] = useState()
     const musicContract = useSelector(state => state.musicContract);
     const musicDb = useSelector((state) => state.musicDb.music_db);
+
     useEffect(() => {
-      writeToMusicDb(musicDb);
+      // writeToMusicDb(musicDb);
     }, [musicHash]);
    
+    const computeHash = async () => {
+      let canUpload 
+      const hashedData = crypto.MD5(dataToHash).toString(crypto.enc.Hex)
+      console.log(hashedData);
+      return new Promise(async (resolve, reject) => {
+        await compareSongHash({'songHash': hashedData})
+        .then(async (bool) => {
+          canUpload = true
+        })
+        .catch((bool) => {
+          reject(false)
+        })
+        if(canUpload){
+          await postSongHash({'songHash': hashedData})
+          .then((bool)=>{
+            resolve(true)
+          })
+          .catch((bool) =>{
+            reject(false)
+          })
+
+      }
+    })
+  }
     const captureMusic = (event) => {
       event.preventDefault();
       const file = event.target.files[0];
       const reader = new window.FileReader();
       reader.readAsArrayBuffer(file);
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         console.time("encrypt");
         const wordArray = crypto.lib.WordArray.create(Buffer(reader.result));
         const str = crypto.enc.Hex.stringify(wordArray);
+        setDataToHash(str)
         var aesKey = randomKeyGenerator(32);
         setAesKey(aesKey);
         console.log(aesKey);
@@ -105,42 +133,68 @@ function Index()
       await uploadImageToIPFS()
     } 
   
-  const writeToMusicDb = (musicDb=musicDb) => {
+  // const writeToMusicDb = (musicDb=musicDb) => {
 
-      console.log("write music to db", musicDb);
-      addMusicToOrbit(musicDb, {
-        "musicHash": musicHash,
-        "title": title,
-        "singerName": singerName,
-        "singerRevenue": singerRevenue,
-        "singerPublicKey": singerPublicKey,
-        "producerName": producerName,
-        "producerRevenue": producerRevenue,
-        "producerPublicKey": producerPublicKey,
-        "writerName": writerName,
-        "writerRevenue": writerRevenue,
-        "writerPublicKey": writerPublicKey,
-        "cost": cost,
-        "costPerStream": costPerStream,
-        // "songData": songData,
-        // "songImage": songImage,
-        "aesKey": aesKey,
-        "musicIdentifier": musicIdentifier,
-        "imageHash": imageHash,
-      }).then(data => {
-        console.log("Added music to db I guess", data)
-      }).catch(error => {
-        console.log("Error encountered ", error);
-      }).finally(() => {
-        console.log("Finally done everything");
-      });
-    
-  } 
+  //     console.log("write music to db", musicDb);
+  //     addMusicToOrbit(musicDb, {
+  //       "musicHash": musicHash,
+  //       "title": title,
+  //       "singerName": singerName,
+  //       "singerRevenue": singerRevenue,
+  //       "singerPublicKey": singerPublicKey,
+  //       "producerName": producerName,
+  //       "producerRevenue": producerRevenue,
+  //       "producerPublicKey": producerPublicKey,
+  //       "writerName": writerName,
+  //       "writerRevenue": writerRevenue,
+  //       "writerPublicKey": writerPublicKey,
+  //       "cost": cost,
+  //       "costPerStream": costPerStream,
+  //       // "songData": songData,
+  //       // "songImage": songImage,
+  //       "aesKey": aesKey,
+  //       "musicIdentifier": musicIdentifier,
+  //       "imageHash": imageHash,
+  //     }).then(data => {
+  //       console.log("Added music to db I guess", data)
+  //     }).catch(error => {
+  //       console.log("Error encountered ", error);
+  //     }).finally(() => {
+  //       console.log("Finally done everything");
+  //     });
+  // } 
+
     const handleSubmit = async() => {
+      let duplicateStatus
       setLoading(true)
-      await uploadToIPFS();
+      await computeHash(dataToHash)
+      .then((bool) => {
+        console.log('can upload song info')
+        duplicateStatus = false
+      })
+      .catch((bool) => {
+        window.alert('cannot upload duplicate song')
+        duplicateStatus = true
+      })
+      if(!duplicateStatus){
+        await postSongs({
+          'songIdentifier': String(title + singerName),
+          'aesKey' : aesKey
+        })
+        .then(() => {
+  
+        })
+        .catch(() => {
+  
+        })
+      }
+      /*
+      await uploadToIPFS()
       // console.log(String(title + singerName));
-      musicContract.methods.musicAdd(title, singerName, cost, String(title + singerName), aesKey).send({from : singerPublicKey})
+      
+      //upload contract befire this.
+      //musicContract.methods.musicAdd(title, singerName, cost, String(title + singerName)).send({from : singerPublicKey})
+      */
       setLoading(false)
     }
     return(
@@ -159,7 +213,7 @@ function Index()
                     placeholder="song title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}                  
-                    required
+                    //required
                     />
                 </div>
     
@@ -171,7 +225,7 @@ function Index()
                     name="singerName"
                     value={singerName}
                     onChange={(e) => setSingerName(e.target.value)}   
-                    required              
+                    //required              
                   />
                 </div>
     
@@ -195,7 +249,7 @@ function Index()
                     placeholder="singer's public key"
                     value={singerPublicKey}
                     onChange={(e) => setSingerPublicKey(e.target.value)}  
-                    required
+                    //required
                   />
                 </div>
     
@@ -276,7 +330,7 @@ function Index()
                     name="downloadCost"
                     value={cost}
                     onChange={(e) => setCost(e.target.value)}  
-                    required
+                    //required
                   />
                 </div>
                 

@@ -10,7 +10,7 @@ contract Musicc {
     address admin;
     DappToken public tokenContract;
     MusicContract public musicContract;
-    mapping(string => Music) music;
+    mapping(string => Music) public music;
 
     struct Music
     {
@@ -18,7 +18,6 @@ contract Musicc {
         string artistName;
         uint price;
         string musicIdentifier;
-        string aesKey;
     }
 
     //events are created to make sure that receipts are obtained after a txn is completed.
@@ -27,9 +26,7 @@ contract Musicc {
         string musicName,
         string artistName,
         uint price,
-        string musicIdentifier,
-        string aesKey
-       
+        string musicIdentifier
     );
 
      event MusicPurchased
@@ -37,9 +34,7 @@ contract Musicc {
         string musicName,
         string artistName,
         uint price,
-        string musicIdentifier,
-        string aesKey
-       
+        string musicIdentifier
     );
 
     event MusicTipped
@@ -47,9 +42,7 @@ contract Musicc {
         string musicName,
         string artistName,
         uint price,
-        string musicIdentifier,
-        string aesKey
-       
+        string musicIdentifier
     );
     
     constructor(DappToken _tokenContract, MusicContract _musicContract) {
@@ -59,7 +52,7 @@ contract Musicc {
         name = "Music Marketplace";
     } 
 
-    function musicAdd(string memory _musicName, string memory _artistName, uint _price, string memory _musicIdentifier, string memory _aesKey) public
+    function musicAdd(string memory _musicName, string memory _artistName, uint _price, string memory _musicIdentifier) public
     {
         //Require valid name
         require(bytes(_musicName).length > 0);
@@ -69,10 +62,10 @@ contract Musicc {
         require(_price > 0);
 
         //Create the product
-        music[_musicIdentifier] = Music(_musicName, _artistName, _price,  _musicIdentifier, _aesKey);
+        music[_musicIdentifier] = Music(_musicName, _artistName, _price,  _musicIdentifier);
 
         //Trigger an event
-        emit MusicAdded(_musicName, _artistName, _price,  _musicIdentifier, _aesKey);
+        emit MusicAdded(_musicName, _artistName, _price,  _musicIdentifier);
     }
 
     function musicPurchase(string memory _musicIdentifier) public 
@@ -92,11 +85,8 @@ contract Musicc {
         //trasnfer the total token to musicContract
         require(tokenContract.tTransfer(address(musicContract), _tokenPrice, msg.sender), 'unable to call transfer fucntion of tokencontract');
        
-        //require(tokenContract.transfer(address(musicContract), _tokenPrice), 'unable to call transfer fucntion of tokencontract');
-
-
         //trigger an event 
-        emit MusicPurchased(_product.musicName, _product.artistName, _product.price, _product.musicIdentifier, _product.aesKey);
+        emit MusicPurchased(_product.musicName, _product.artistName, _product.price, _product.musicIdentifier);
     } 
 
     function musicTip(string memory _musicIdentifier, uint256 _tokenNumber) public 
@@ -113,9 +103,7 @@ contract Musicc {
         //pay the seller by tranfering token
         require(tokenContract.tTransfer(address(musicContract), _tokenNumber, msg.sender), 'unable to call transfer fucntion of tokencontract');
         
-        //require(tokenContract.transfer(address(musicContract), _tokenNumber), 'unable to call transfer fucntion of tokencontract');
-
         //trigger an event
-        emit MusicTipped(_product.musicName, _product.artistName, _tokenNumber, _product.musicIdentifier, _product.aesKey);
+        emit MusicTipped(_product.musicName, _product.artistName, _tokenNumber, _product.musicIdentifier);
     }
 }

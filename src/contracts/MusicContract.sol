@@ -77,11 +77,7 @@ contract MusicContract{
         contractMusic[_musicIdentifer] = Contract(_musicIdentifer, _singer, _sPer, _producer, _pPer, _writer, _wPer);
         emit contractInitialized(_musicIdentifer, _singer, _sPer, _producer, _pPer, _writer, _wPer);
     }
-    
-    // function getRedeemableBalance(address _owner) public returns (uint256){
-    //     return balanceOf[_owner].redeemableBalance;
-    // }
-    
+     
     function storeAndAllocateTokens(uint256 _amount, string memory _musicIdentifer) public returns(bool){
         
         //get contract data 
@@ -98,9 +94,6 @@ contract MusicContract{
             balanceOf[music_Contract.producer].redeemableBalance = (_amount.mul(music_Contract.producerPercentage)).div(100);
         }
 
-        //update totalRedeemableBalance
-        //totalRedeemableBalance = totalRedeemableBalance.add(_amount);
-        //no need as balanceOf this contract will give the total reddemable amount
         return true;
     }
     
@@ -122,8 +115,6 @@ contract MusicContract{
         //call transfer method of DappToken
         require(tokenContract.tTransfer(_owner, _amountOfToken, address(this)), 'unable to call transfer function of tokencontract');
         
-        //require(tokenContract.transfer(_owner, _amountOfToken), 'unable to call transfer function of tokencontract');
-
         //emit event
         emit RedeemTokens(_owner, _amountOfToken);
     }
