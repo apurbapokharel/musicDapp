@@ -88,6 +88,8 @@ img {
 
 .sample__front .sample__thumbnail {
     border-radius: var(--br);
+    height: 200px;
+    width: 200px;
 }
 
 .sample__front .sample__name {

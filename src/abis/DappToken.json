@@ -1733,6 +1733,7 @@
   },
   "schemaVersion": "3.0.23",
   "updatedAt": "2020-12-29T12:28:13.437Z",
+
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
