@@ -1,131 +1,110 @@
-pragma solidity 0.5.16;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.4.0 <0.8.0;
 
 import './DappToken.sol';
+import './MusicContract.sol';
 
 contract Musicc {
     
     string public name;
     address admin;
     DappToken public tokenContract;
-    uint public musicCount = 0;
+    MusicContract public musicContract;
     mapping(uint => Music) public music;
+    uint public  musicCount = 0;
 
     struct Music
     {
-        uint id;
         string musicName;
         string artistName;
         uint price;
-        address payable owner;
         string musicIdentifier;
-        string aesKey;
     }
 
     //events are created to make sure that receipts are obtained after a txn is completed.
     event MusicAdded
     (
-        uint id,
         string musicName,
         string artistName,
         uint price,
-        address payable owner,
-        string musicIdentifier,
-        string aesKey
-       
+        string musicIdentifier
     );
 
      event MusicPurchased
     (
-        uint id,
         string musicName,
         string artistName,
         uint price,
-        address payable owner,
-        string musicIdentifier,
-        string aesKey
-       
+        string musicIdentifier
     );
 
     event MusicTipped
     (
-        uint id,
         string musicName,
         string artistName,
         uint price,
-        address payable owner,
-        string musicIdentifier,
-        string aesKey
-       
+        string musicIdentifier
     );
     
-    constructor(DappToken _tokenContract) public{
+    constructor(DappToken _tokenContract, MusicContract _musicContract) {
         admin = msg.sender;
         tokenContract = _tokenContract;
+        musicContract = _musicContract;
         name = "Music Marketplace";
     } 
 
-    function musicAdd(string memory _musicName, string memory _artistName, uint _price, string memory _musicIdentifier, string memory _aesKey) public
+    function musicAdd(string memory _musicName, string memory _artistName, uint _price, string memory _musicIdentifier) public
     {
         //Require valid name
         require(bytes(_musicName).length > 0);
         require(bytes(_artistName).length > 0);
+
         //Require valid price
         require(_price > 0);
-        //Increment productCount
         musicCount ++;
         //Create the product
-        music[musicCount] = Music(musicCount, _musicName, _artistName, _price, msg.sender,  _musicIdentifier, _aesKey);
+        music[musicCount] = Music(_musicName, _artistName, _price,  _musicIdentifier);
+
         //Trigger an event
-        emit MusicAdded(musicCount, _musicName, _artistName, _price, msg.sender,  _musicIdentifier, _aesKey);
+        emit MusicAdded(_musicName, _artistName, _price,  _musicIdentifier);
     }
 
-    function musicPurchase(uint _id) public 
+    function musicPurchase(uint256 _musicCount, string memory _musicIdentifier) public 
     {
         //fetch product
         //memory space is being used to store copy of said product i.e copy of products[_id]
-        Music memory _product = music[_id];
-
-        //fetch owner
-        address payable _seller = _product.owner;
-
-        //check if product has valid id
-        require(_product.id >0 && _product.id <= musicCount, 'product is not valid');
+        Music memory _product = music[_musicCount];
 
         //check is there is enough token of the msg.sender
         require(tokenContract.balanceOf(msg.sender) >= _product.price, 'msg.sender has insufficient token');
 
-        //check if the buyer is not the seller
-        require(_seller != msg.sender, 'buyer cannot be the seller');
-
         uint256 _tokenPrice = _product.price;
-        //pay the seller by calling the transfer fucntion in Dapptoken.sol
-        require(tokenContract.transfer(_seller, _tokenPrice, msg.sender), 'unable to call transfer fucntion of tokencontract');
 
-        //update product
-        music[_id] = _product;
+        //call storeAndAllocateTokens from musiccontract
+        require(musicContract.storeAndAllocateTokens(_product.price, _musicIdentifier), 'unable to call storeAndAllocateToken');
 
+        //trasnfer the total token to musicContract
+        require(tokenContract.tTransfer(address(musicContract), _tokenPrice, msg.sender), 'unable to call transfer fucntion of tokencontract');
+       
         //trigger an event 
-        emit MusicPurchased(musicCount, _product.musicName, _product.artistName, _product.price, _product.owner , _product.musicIdentifier, _product.aesKey);
+        emit MusicPurchased(_product.musicName, _product.artistName, _product.price, _product.musicIdentifier);
     } 
 
-    function musicTip(uint _id, uint256 _tokenNumber) public 
+    function musicTip(uint256 _musicCount, string memory _musicIdentifier, uint256 _tokenNumber) public 
     {
         //fetch product
-        Music memory _product = music[_id];
+        Music memory _product = music[_musicCount];
         
-        //fetch owner
-        address payable _seller = _product.owner;
-
-        //check if product is valid
-        require(_product.id >0 && _product.id <= musicCount);
-
         //check is there is enough token of the msg.sender
         require(tokenContract.balanceOf(msg.sender) >= _tokenNumber, 'msg.sender has insufficient token');
 
-        //pay the seller by tranfering token
-        require(tokenContract.transfer(_seller, _tokenNumber, msg.sender), 'unable to call transfer fucntion of tokencontract');
+        //call storeAndAllocateTokens from musiccontract
+        require(musicContract.storeAndAllocateTokens(_tokenNumber, _musicIdentifier), 'unable to call storeAndAllocateToken');
 
+        //pay the seller by tranfering token
+        require(tokenContract.tTransfer(address(musicContract), _tokenNumber, msg.sender), 'unable to call transfer fucntion of tokencontract');
+        
         //trigger an event
-        emit MusicTipped(musicCount, _product.musicName, _product.artistName, _product.price, _product.owner , _product.musicIdentifier, _product.aesKey);
+        emit MusicTipped(_product.musicName, _product.artistName, _tokenNumber, _product.musicIdentifier);
     }
 }

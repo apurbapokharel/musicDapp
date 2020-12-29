@@ -1,5 +1,7 @@
 require('babel-register');
 require('babel-polyfill');
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+const mnemonic = "check open wave glad initial trash more exclude cigar ask someone chapter";
 
 module.exports = {
   networks: {
@@ -8,12 +10,19 @@ module.exports = {
       port: 8545,
       network_id: "*" // Match any network id
     },
+    ropsten: {
+      provider: function() {
+        return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/bcf7f972ad3f452c89416b8db3c9ccf6", 4)
+      },
+      network_id: 3,
+      skipDryRun: true
+    }
   },
-  contracts_directory: './src/r/',
+  contracts_directory: './src/contracts/',
   contracts_build_directory: './src/abis/',
   compilers: {
     solc: {
-      version: "0.5.16",
+      version: "0.7.1",
       optimizer: {
         enabled: true,
         runs: 200

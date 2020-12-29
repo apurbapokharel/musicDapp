@@ -16,6 +16,13 @@ export const ADD_MUSIC_CONTRACT = (value) => {
     }
 };
 
+export const ADD_MUSIC_COUNT = (value) => {
+    return{
+        type:"MUSIC_COUNT_ASSIGNMENT",
+        payload: value
+    }
+};
+
 export const ADD_TOKEN_CONTRACT = (value) => {
     return{
         type:"TOKEN_CONTRACT_ASSIGNMENT",
@@ -26,6 +33,13 @@ export const ADD_TOKEN_CONTRACT = (value) => {
 export const ADD_TOKENSALE_CONTRACT = (value) => {
     return{
         type:"TOKENSALE_CONTRACT_ASSIGNMENT",
+        payload: value
+    }
+};
+
+export const ADD_MUSICCONTRACT_CONTRACT = (value) => {
+    return{
+        type:"MUSICCONTRACT_CONTRACT_ASSIGNMENT",
         payload: value
     }
 };
@@ -65,6 +79,14 @@ export const ADD_TOKENSOLD = (value) => {
     }
 };
 
+export const ADD_REDEEMABLE_BALANCE = (value) => {
+    return{
+        type:"REDEEMABLE_BALANCE_ASSIGNMENT",
+        payload: value
+    }
+};
+
+//ORBOTDB stuff delete later
 export const START_ORBITDB_INITILIZE = () => {
     return {
         type: "INITIALIZE_ORBITDB",
