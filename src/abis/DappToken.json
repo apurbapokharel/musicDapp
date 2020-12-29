@@ -89,7 +89,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -132,7 +133,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -145,7 +147,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -206,7 +209,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -219,7 +223,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -232,7 +237,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -355,7 +361,7 @@
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 52,
-        "sourceUnit": 1581,
+        "sourceUnit": 1574,
         "src": "2172:55:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -368,10 +374,10 @@
               "id": 3,
               "name": "ERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1580,
+              "referencedDeclaration": 1573,
               "src": "2253:5:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20_$1580",
+                "typeIdentifier": "t_contract$_ERC20_$1573",
                 "typeString": "contract ERC20"
               }
             },
@@ -381,18 +387,18 @@
           }
         ],
         "contractDependencies": [
-          881,
-          1580,
-          1658
+          874,
+          1573,
+          1651
         ],
         "contractKind": "contract",
         "fullyImplemented": true,
         "id": 51,
         "linearizedBaseContracts": [
           51,
-          1580,
-          1658,
-          881
+          1573,
+          1651,
+          874
         ],
         "name": "DappToken",
         "nodeType": "ContractDefinition",
@@ -434,7 +440,7 @@
                       "name": "_setupDecimals",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1568,
+                      "referencedDeclaration": 1561,
                       "src": "2363:14:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_uint8_$returns$__$",
@@ -589,7 +595,7 @@
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1456,
+                      "referencedDeclaration": 1449,
                       "src": "2392:5:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
@@ -654,10 +660,10 @@
                   "name": "ERC20",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1580,
+                  "referencedDeclaration": 1573,
                   "src": "2327:5:0",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_ERC20_$1580_$",
+                    "typeIdentifier": "t_type$_t_contract$_ERC20_$1573_$",
                     "typeString": "type(contract ERC20)"
                   }
                 },
@@ -803,7 +809,7 @@
                       "name": "_transfer",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1401,
+                      "referencedDeclaration": 1394,
                       "src": "2544:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_address_$_t_uint256_$returns$__$",
@@ -1024,7 +1030,7 @@
         "id": 2,
         "nodeType": "ImportDirective",
         "scope": 52,
-        "sourceUnit": 1581,
+        "sourceUnit": 1574,
         "src": "2172:55:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1037,10 +1043,10 @@
               "id": 3,
               "name": "ERC20",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1580,
+              "referencedDeclaration": 1573,
               "src": "2253:5:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC20_$1580",
+                "typeIdentifier": "t_contract$_ERC20_$1573",
                 "typeString": "contract ERC20"
               }
             },
@@ -1050,18 +1056,18 @@
           }
         ],
         "contractDependencies": [
-          881,
-          1580,
-          1658
+          874,
+          1573,
+          1651
         ],
         "contractKind": "contract",
         "fullyImplemented": true,
         "id": 51,
         "linearizedBaseContracts": [
           51,
-          1580,
-          1658,
-          881
+          1573,
+          1651,
+          874
         ],
         "name": "DappToken",
         "nodeType": "ContractDefinition",
@@ -1103,7 +1109,7 @@
                       "name": "_setupDecimals",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1568,
+                      "referencedDeclaration": 1561,
                       "src": "2363:14:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_uint8_$returns$__$",
@@ -1258,7 +1264,7 @@
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1456,
+                      "referencedDeclaration": 1449,
                       "src": "2392:5:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
@@ -1323,10 +1329,10 @@
                   "name": "ERC20",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1580,
+                  "referencedDeclaration": 1573,
                   "src": "2327:5:0",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_ERC20_$1580_$",
+                    "typeIdentifier": "t_type$_t_contract$_ERC20_$1573_$",
                     "typeString": "type(contract ERC20)"
                   }
                 },
@@ -1472,7 +1478,7 @@
                       "name": "_transfer",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1401,
+                      "referencedDeclaration": 1394,
                       "src": "2544:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_address_$_t_uint256_$returns$__$",
@@ -1721,12 +1727,13 @@
         }
       },
       "links": {},
-      "address": "0xad495c3E12305Cca125341868dCe910983CD8429",
-      "transactionHash": "0x04c9b43a2b2d29550e214730a029a4ffc3c3b741aaf60ee52135ca8bf94b21c4"
+      "address": "0x9c04116c0A1f0f17AAf1C09dBDB35A1Bc9159D0b",
+      "transactionHash": "0x8d3e1b0088f351dce41c124457e852ed3b59f7a77ea3d610c2f1fac2bfed6274"
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-12-17T14:57:46.723Z",
+  "updatedAt": "2020-12-29T12:28:13.437Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {

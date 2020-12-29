@@ -11,7 +11,7 @@ function LandingHome() {
             <NayaNavbar />
             <FirstLayout />
             <SecondLayout />
-            <StartListening />
+            {/* <StartListening /> */}
             <PageFooter />
         </div>
     )

@@ -47,7 +47,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -60,7 +61,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -73,7 +75,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -91,7 +94,8 @@
       "name": "buyTokens",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [],
@@ -150,7 +154,7 @@
         "id": 55,
         "nodeType": "ImportDirective",
         "scope": 191,
-        "sourceUnit": 1078,
+        "sourceUnit": 1071,
         "src": "99:51:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -174,10 +178,10 @@
               "id": 56,
               "name": "SafeMath",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1077,
+              "referencedDeclaration": 1070,
               "src": "191:8:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_SafeMath_$1077",
+                "typeIdentifier": "t_contract$_SafeMath_$1070",
                 "typeString": "library SafeMath"
               }
             },
@@ -778,7 +782,7 @@
                                     "lValueRequested": false,
                                     "memberName": "mul",
                                     "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 990,
+                                    "referencedDeclaration": 983,
                                     "src": "715:19:1",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -821,7 +825,7 @@
                             "lValueRequested": false,
                             "memberName": "div",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1007,
+                            "referencedDeclaration": 1000,
                             "src": "714:37:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -1008,7 +1012,7 @@
                             "lValueRequested": false,
                             "memberName": "balanceOf",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1180,
+                            "referencedDeclaration": 1173,
                             "src": "949:23:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -1376,7 +1380,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 910,
+                        "referencedDeclaration": 903,
                         "src": "1536:14:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -1786,7 +1790,7 @@
                               "lValueRequested": false,
                               "memberName": "balanceOf",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 1180,
+                              "referencedDeclaration": 1173,
                               "src": "1774:23:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -2058,7 +2062,7 @@
         "id": 55,
         "nodeType": "ImportDirective",
         "scope": 191,
-        "sourceUnit": 1078,
+        "sourceUnit": 1071,
         "src": "99:51:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -2082,10 +2086,10 @@
               "id": 56,
               "name": "SafeMath",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1077,
+              "referencedDeclaration": 1070,
               "src": "191:8:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_SafeMath_$1077",
+                "typeIdentifier": "t_contract$_SafeMath_$1070",
                 "typeString": "library SafeMath"
               }
             },
@@ -2686,7 +2690,7 @@
                                     "lValueRequested": false,
                                     "memberName": "mul",
                                     "nodeType": "MemberAccess",
-                                    "referencedDeclaration": 990,
+                                    "referencedDeclaration": 983,
                                     "src": "715:19:1",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -2729,7 +2733,7 @@
                             "lValueRequested": false,
                             "memberName": "div",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1007,
+                            "referencedDeclaration": 1000,
                             "src": "714:37:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -2916,7 +2920,7 @@
                             "lValueRequested": false,
                             "memberName": "balanceOf",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1180,
+                            "referencedDeclaration": 1173,
                             "src": "949:23:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -3284,7 +3288,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 910,
+                        "referencedDeclaration": 903,
                         "src": "1536:14:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -3694,7 +3698,7 @@
                               "lValueRequested": false,
                               "memberName": "balanceOf",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 1180,
+                              "referencedDeclaration": 1173,
                               "src": "1774:23:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -3952,12 +3956,13 @@
         }
       },
       "links": {},
-      "address": "0x413A9eA325e0d6c668b71F78596F43Ff78388b4B",
-      "transactionHash": "0x06ee5dafc12a6810e9765bfca64e5cf5e3279ae9d20b6f0635d1ee2ba748f4f8"
+      "address": "0x17df6D6ceC58756A6A845faf5352eA94ABe93870",
+      "transactionHash": "0x8e823f69152697347a589dec0992867e6057c4bf76eca42e3902b8c456d906e9"
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-12-17T14:57:46.730Z",
+  "updatedAt": "2020-12-29T12:28:13.444Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},

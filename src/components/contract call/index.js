@@ -5,9 +5,11 @@ import Upload from './upload';
 import Music from '../../abis/Musicc.json';
 import DappTokenInstance from '../../abis/DappToken.json'
 import DappTokenSaleInstance from '../../abis/DappTokenSale.json'
+import MusicContract from '../../abis/MusicContract.json'
 import {
   ADD_SONGS,
   ADD_MUSIC_CONTRACT,
+  ADD_MUSIC_COUNT,
   ADD_TOKEN_CONTRACT,
   ADD_TOKENSALE_CONTRACT,
   ADD_TOKENPRICEETH,
@@ -21,6 +23,8 @@ import {
   MUSIC_DB_INITILIZE,
   MUSIC_DB_CREATE,
   MUSIC_DB_CREATE_ERROR,
+  ADD_MUSICCONTRACT_CONTRACT,
+  ADD_REDEEMABLE_BALANCE,
 } from "../../store/actions";
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
@@ -66,15 +70,14 @@ function Index(){
     }
     
     async function loadBlockchainData(){
-      let musicCount
-      let musicData
-        await getSongCount()
-        .then((value) => {
-          musicCount = value
-        })
-        .catch(() => {
-          console.log("music count fetch error");
-        })
+      var musicCount, musicData
+        // await getSongCount()
+        // .then((value) => {
+        //   musicCount = value
+        // })
+        // .catch(() => {
+        //   console.log("music count fetch error");
+        // })
         await getMusicIdentifiers()
         .then((value) => {
           console.log(value);
@@ -89,47 +92,56 @@ function Index(){
         const songs = []
         // setAccount(accounts[0]) //works
         dispatch(ADD_CURRENTADDRESS(accounts[0]))
-        
+        console.log(musicCount, musicData);
         const networkId = await web3.eth.net.getId()
         const networkData = Music.networks[networkId]
-        // if(networkData) {
-        //     const contract = web3.eth.Contract(Music.abi, networkData.address)
-        //     dispatch(ADD_MUSIC_CONTRACT(contract))
-        //     setLoading(false)
-        //     //const musicCount = await contract.methods.musicCount().call()
-        //     //Load music
-        //     for (var i = 1; i <= musicCount; i++) {
-        //           const musicIdentifier = musicData[i].musicIdentifier
-        //           const music = await contract.methods.music(musicIdentifier).call()
-        //           console.log('musics', music);
-        //           songs.push(music)
-        //     }
-        //     console.log(songs)
-        //     dispatch(ADD_SONGS(songs))
-        // }
-        // else {
-        //     window.alert('Music contract not deployed to detected network.')
-        // }
-        // const networkData1 = DappTokenInstance.networks[networkId]
-        // if(networkData1) {
-        //     const contract = web3.eth.Contract(DappTokenInstance.abi, networkData1.address)
-        //     dispatch(ADD_TOKEN_CONTRACT(contract))
-        //     const tokenHeld = await contract.methods.balanceOf(accounts[0]).call()
-        //     dispatch(ADD_TOKENHELD(tokenHeld.toNumber()))
-        // }          
+        if(networkData) {
+            const contract = web3.eth.Contract(Music.abi, networkData.address)
+            dispatch(ADD_MUSIC_CONTRACT(contract))
+            setLoading(false)
+            const musicCount = await contract.methods.musicCount().call()
+            dispatch(ADD_MUSIC_COUNT(musicCount.toNumber()))
+            //Load music
+            for (var i = 1; i <= musicCount; i++) {
+                  const music = await contract.methods.music(i).call()
+                  // console.log('musics', music);
+                  songs.push(music)
+            }
+            console.log(songs)
+            dispatch(ADD_SONGS(songs))
+        }
+        else { 
+            window.alert('Music contract not deployed to detected network.')
+        }
+        const networkData1 = DappTokenInstance.networks[networkId]
+        if(networkData1) {
+            const contract = web3.eth.Contract(DappTokenInstance.abi, networkData1.address)
+            dispatch(ADD_TOKEN_CONTRACT(contract))
+            const tokenHeld = await contract.methods.balanceOf(accounts[0]).call()
+            dispatch(ADD_TOKENHELD(tokenHeld.toNumber()))
+        }          
         
-        // const networkData2 = DappTokenSaleInstance.networks[networkId]
-        // if(networkData2) {
-        //     const contract = web3.eth.Contract(DappTokenSaleInstance.abi, networkData2.address)
-        //     dispatch(ADD_TOKENSALE_CONTRACT(contract))
-        //     const price = await contract.methods.tokenPrice().call()
-        //     // console.log(price)
-        //     const count = await contract.methods.tokensSold().call()
-        //     // // console.log(count)
-        //     dispatch(ADD_TOKENPRICEWEI(price.toNumber()))
-        //     dispatch(ADD_TOKENPRICEETH(web3.utils.fromWei(price.toString(), 'Ether')))
-        //     dispatch(ADD_TOKENSOLD(count.toNumber()))
-        // }    
+        const networkData2 = DappTokenSaleInstance.networks[networkId]
+        if(networkData2) {
+            const contract = web3.eth.Contract(DappTokenSaleInstance.abi, networkData2.address)
+            dispatch(ADD_TOKENSALE_CONTRACT(contract))
+            const price = await contract.methods.tokenPrice().call()
+            // console.log(price)
+            const count = await contract.methods.tokensSold().call()
+            // // console.log(count)
+            dispatch(ADD_TOKENPRICEWEI(price.toNumber()))
+            dispatch(ADD_TOKENPRICEETH(web3.utils.fromWei(price.toString(), 'Ether')))
+            dispatch(ADD_TOKENSOLD(count.toNumber()))
+        }
+        
+        const networkData3 = MusicContract.networks[networkId]
+        if(networkData3){
+          const contract = web3.eth.Contract(MusicContract.abi, networkData3.address)
+          dispatch(ADD_MUSICCONTRACT_CONTRACT(contract))
+          const redeemableBalnce = await contract.methods.balanceOf(accounts[0]).call()
+          dispatch(ADD_REDEEMABLE_BALANCE(redeemableBalnce.toNumber()))
+        }
+        //console.log('musicContract address', networkData.address);
     }
 
     return (

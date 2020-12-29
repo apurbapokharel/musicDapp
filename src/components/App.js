@@ -10,6 +10,7 @@ import PlayerState from '../context/PlayerState';
 import AudioController from './webComponents/musicHome/librarySection/AudioController';
 import BuyToken from './token/BuyToken';
 import TrackTokens from './token/TrackToken';
+import RedeemTokens from './token/RedeemToken';
 import ViewStats from './token/ViewStats';
 
 import Web3 from 'web3'
@@ -29,6 +30,7 @@ class App extends Component{
           <Route exact path="/musicHome/library/controller" component={AudioController} />
           <Route exact path="/buyTokens" component={BuyToken} />
           <Route exact path="/trackTokens" component={TrackTokens} />
+          <Route exact path="/redeemTokens" component={RedeemTokens} />
           <Route exact path="/viewStats" component={ViewStats} />
         </Switch>
         </PlayerState>

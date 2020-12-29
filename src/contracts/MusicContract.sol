@@ -99,7 +99,7 @@ contract MusicContract{
     
     function redeemTokens(uint256 _amountOfToken, address _owner) public payable{
         //check msg.value sent by _owner
-        require(msg.value == (_amountOfToken.mul(tokenPrice)).div(10**10), 'insifficient value sent by the msg.sender');
+        //require(msg.value == (_amountOfToken.mul(tokenPrice)).div(10**10), 'insifficient value sent by the msg.sender');
         
         //check validity of address  _owner
         require(_owner != address(0),'Owner cannot have 0 address');

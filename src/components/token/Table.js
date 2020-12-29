@@ -19,7 +19,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
-import { fetchNormalTxn } from '../API Caller/Apifetcher'
+import { fetchNormalTxn } from '../API Caller/ApiFetcher'
 import Modal from './Modal'
 
 const Ttable = (props) => {

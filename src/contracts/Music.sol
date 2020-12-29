@@ -10,7 +10,8 @@ contract Musicc {
     address admin;
     DappToken public tokenContract;
     MusicContract public musicContract;
-    mapping(string => Music) public music;
+    mapping(uint => Music) public music;
+    uint public  musicCount = 0;
 
     struct Music
     {
@@ -60,19 +61,19 @@ contract Musicc {
 
         //Require valid price
         require(_price > 0);
-
+        musicCount ++;
         //Create the product
-        music[_musicIdentifier] = Music(_musicName, _artistName, _price,  _musicIdentifier);
+        music[musicCount] = Music(_musicName, _artistName, _price,  _musicIdentifier);
 
         //Trigger an event
         emit MusicAdded(_musicName, _artistName, _price,  _musicIdentifier);
     }
 
-    function musicPurchase(string memory _musicIdentifier) public 
+    function musicPurchase(uint256 _musicCount, string memory _musicIdentifier) public 
     {
         //fetch product
         //memory space is being used to store copy of said product i.e copy of products[_id]
-        Music memory _product = music[_musicIdentifier];
+        Music memory _product = music[_musicCount];
 
         //check is there is enough token of the msg.sender
         require(tokenContract.balanceOf(msg.sender) >= _product.price, 'msg.sender has insufficient token');
@@ -89,10 +90,10 @@ contract Musicc {
         emit MusicPurchased(_product.musicName, _product.artistName, _product.price, _product.musicIdentifier);
     } 
 
-    function musicTip(string memory _musicIdentifier, uint256 _tokenNumber) public 
+    function musicTip(uint256 _musicCount, string memory _musicIdentifier, uint256 _tokenNumber) public 
     {
         //fetch product
-        Music memory _product = music[_musicIdentifier];
+        Music memory _product = music[_musicCount];
         
         //check is there is enough token of the msg.sender
         require(tokenContract.balanceOf(msg.sender) >= _tokenNumber, 'msg.sender has insufficient token');

@@ -7,6 +7,7 @@ import randomKeyGenerator from 'random-token'
 import CircularIndeterminate from './Spinner'
 import { addMusicToOrbit } from '../../../helpers/musicDB/musicDb';
 import { compareSongHash, postSongHash, postSongs } from '../../API Caller/RESTFetcher';
+import { useHistory } from "react-router-dom";
 
 require('dotenv/config');
 
@@ -15,16 +16,16 @@ function Index()
 {
     const[title, setTitle] = useState("")
     const[singerName, setSingerName] = useState("")
-    const[singerRevenue, setSingerRevenue] = useState("")
-    const[singerPublicKey, setSingerPublicKey] = useState("")
+    const[singerRevenue, setSingerRevenue] = useState("50")
+    const[singerPublicKey, setSingerPublicKey] = useState("0x130043A297547B66A58d7Ca8b6E8AE50587b8b55")
     const[producerName, setProducerName] = useState("")
-    const[producerRevenue, setProducerRevenue] = useState("")
-    const[producerPublicKey, setProducerPublicKey] = useState("")
+    const[producerRevenue, setProducerRevenue] = useState("30")
+    const[producerPublicKey, setProducerPublicKey] = useState("0xAD1fFa797AC85BdC76B2A7c6883F6c1780717bB2")
     const[writerName, setWriterName] = useState("")
-    const[writerRevenue, setWriterRevenue] = useState("")
-    const[writerPublicKey, setWriterPublicKey] = useState("")
-    const[cost, setCost] = useState("")
-    const[costPerStream, setCostPerStream] = useState("")
+    const[writerRevenue, setWriterRevenue] = useState("20")
+    const[writerPublicKey, setWriterPublicKey] = useState("0x98599D175226529D276BE9DEa5e79faD430F0AA0")
+    const[cost, setCost] = useState("10")
+    const[costPerStream, setCostPerStream] = useState("1")
     const[songData, setSongData] = useState()
     const[songImage, setSongImage] = useState()
     const[aesKey, setAesKey] = useState()
@@ -32,16 +33,22 @@ function Index()
     const[musicHash, setMusicHash] = useState()
     const[imageHash, setImageHash] = useState()
     const[loading, setLoading] = useState(false)
+    const[duplicateStatus, setDuplicateStatus] = useState()
     const[dataToHash, setDataToHash] = useState()
-    const musicContract = useSelector(state => state.musicContract);
-    const musicDb = useSelector((state) => state.musicDb.music_db);
+    const musicContract = useSelector(state => state.musicContract)
+    const musicContractContract = useSelector(state => state.musicContractContract)
+    const currentAccount = useSelector(state => state.currentAccount)
+    const currentSongCount = useSelector(state => state.musicCount)
+    const history = useHistory();
+
+    const musicDb = useSelector((state) => state.musicDb.music_db)
 
     useEffect(() => {
       // writeToMusicDb(musicDb);
     }, [musicHash]);
    
     const computeHash = async () => {
-      let canUpload 
+      let canUpload = false
       const hashedData = crypto.MD5(dataToHash).toString(crypto.enc.Hex)
       console.log(hashedData);
       return new Promise(async (resolve, reject) => {
@@ -53,7 +60,7 @@ function Index()
           reject(false)
         })
         if(canUpload){
-          await postSongHash({'songHash': hashedData})
+          await postSongHash({'songHash': hashedData, 'songCount': currentSongCount+1})
           .then((bool)=>{
             resolve(true)
           })
@@ -64,6 +71,20 @@ function Index()
       }
     })
   }
+    const uploadMusicContract =async (event) =>{
+      event.preventDefault()
+      console.log('uipload music contract');
+      await computeHash(dataToHash)
+      .then((bool) => {
+        console.log('can upload song info')
+        setDuplicateStatus(false)
+        musicContractContract.methods.setContract(String(title + singerName), singerPublicKey, singerRevenue, producerPublicKey, producerRevenue, writerPublicKey, writerRevenue).send({from : currentAccount}) 
+      })
+      .catch((bool) => {
+        window.alert('cannot upload duplicate song')
+        setDuplicateStatus(true)
+      })
+    }
     const captureMusic = (event) => {
       event.preventDefault();
       const file = event.target.files[0];
@@ -132,70 +153,28 @@ function Index()
       await uploadMusicToIPFS()
       await uploadImageToIPFS()
     } 
-  
-  // const writeToMusicDb = (musicDb=musicDb) => {
-
-  //     console.log("write music to db", musicDb);
-  //     addMusicToOrbit(musicDb, {
-  //       "musicHash": musicHash,
-  //       "title": title,
-  //       "singerName": singerName,
-  //       "singerRevenue": singerRevenue,
-  //       "singerPublicKey": singerPublicKey,
-  //       "producerName": producerName,
-  //       "producerRevenue": producerRevenue,
-  //       "producerPublicKey": producerPublicKey,
-  //       "writerName": writerName,
-  //       "writerRevenue": writerRevenue,
-  //       "writerPublicKey": writerPublicKey,
-  //       "cost": cost,
-  //       "costPerStream": costPerStream,
-  //       // "songData": songData,
-  //       // "songImage": songImage,
-  //       "aesKey": aesKey,
-  //       "musicIdentifier": musicIdentifier,
-  //       "imageHash": imageHash,
-  //     }).then(data => {
-  //       console.log("Added music to db I guess", data)
-  //     }).catch(error => {
-  //       console.log("Error encountered ", error);
-  //     }).finally(() => {
-  //       console.log("Finally done everything");
-  //     });
-  // } 
 
     const handleSubmit = async() => {
-      let duplicateStatus
       setLoading(true)
-      await computeHash(dataToHash)
-      .then((bool) => {
-        console.log('can upload song info')
-        duplicateStatus = false
-      })
-      .catch((bool) => {
-        window.alert('cannot upload duplicate song')
-        duplicateStatus = true
-      })
       if(!duplicateStatus){
         await postSongs({
           'songIdentifier': String(title + singerName),
+          'songCount': currentSongCount+1,
           'aesKey' : aesKey
         })
-        .then(() => {
-  
+        .then((bool) => {
         })
-        .catch(() => {
-  
+        .catch((bool) => {
         })
+        await uploadToIPFS()
+
+        musicContract.methods.musicAdd(title, singerName, cost, String(title + singerName)).send({from : currentAccount})
+
       }
-      /*
-      await uploadToIPFS()
-      // console.log(String(title + singerName));
-      
-      //upload contract befire this.
-      //musicContract.methods.musicAdd(title, singerName, cost, String(title + singerName)).send({from : singerPublicKey})
-      */
+      //console.log(String(title + singerName));
+
       setLoading(false)
+      history.push('/')
     }
     return(
           <div className="upload-wrapper">
@@ -253,7 +232,7 @@ function Index()
                   />
                 </div>
     
-                <div className="download">
+                {/* <div className="download">
                   <label htmlFor="producerName">Producer Name</label>
                   <input
                     placeholder="producer name"
@@ -262,7 +241,7 @@ function Index()
                     value={producerName}
                     onChange={(e) => setProducerName(e.target.value)}  
                   />
-                </div>
+                </div> */}
     
                 <div className="stream">
                   <label htmlFor="producerRevPercent">Producer revenue</label>
@@ -287,7 +266,7 @@ function Index()
                   />
                 </div>
     
-                <div className="download">
+                {/* <div className="download">
                   <label htmlFor="writerName">Writer Name</label>
                   <input
                     placeholder="writer name"
@@ -296,7 +275,7 @@ function Index()
                     value={writerName}
                     onChange={(e) => setWriterName(e.target.value)}  
                   />
-                </div>
+                </div> */}
     
                 <div className="stream">
                   <label htmlFor="writerRevPercent">Writer revenue</label>
@@ -365,17 +344,25 @@ function Index()
                     onChange={captureImage}
                   />
                 </div>
-                
+
+                <div className="createAccount">
+                  <button 
+                    onClick={uploadMusicContract}
+                  >
+                    Upload Music Contract to Ethereum Network
+                  </button>
+                </div>
+
                 <div className="createAccount">
                   <button 
                     type="submit"
-
                   >
-                    Upload to Ehtereum Network
+                    Upload Music to Ethereum Network
                   </button>
                   {loading ? <CircularIndeterminate/> : null}
                   <small>By submitting this you agree all the terms and conditions.</small>
                 </div>
+
               </form>
             </div>
            </div>

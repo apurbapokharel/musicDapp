@@ -66,7 +66,6 @@ export const compareSongHash = async (data) => {
 };
 
 export const getSongCount = async () => {
-    console.log("getSongCount");
     var changeableUrl = `${url}/getSongsCount`;
 
     return new Promise(async (resolve, reject) => {
