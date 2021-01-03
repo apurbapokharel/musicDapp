@@ -17,18 +17,34 @@ import { useContext } from 'react';
 import playerContext from '../../../context/playerContext';
 import fleek from '@fleekhq/fleek-storage-js';
 import crypto from 'crypto-js';
+import { getSongKey } from '../../API Caller/RESTFetcher';
 
 function SongCard(props) {
 
     const[showMe, setShowMe] = useState(false)
     const[imageURL, setImageURL] = useState()
+    const[aesKey, setAESKey] = useState() 
+    const[songCount, setSongCount] = useState()
     const { SetCurrent, setCurrentSong, setCurrentArtist, setSongSource } = useContext(playerContext)
 
-    useEffect(() => {
+    useEffect(async() => {
         var str = props.music.musicIdentifier
+        console.log(props.music.musicIdentifier);
         var str2 = str.replace(/\s/g, '%20')
         var url = `https://apurbapokharel-team-bucket.storage.fleek.co/my-folder/${str2}/image`
         setImageURL(new String(url))
+        //get aes key
+        await getSongKey({
+            'songIdentifier': props.music.musicIdentifier
+          })
+          .then((result) => {
+              console.log("aes key", result);
+              setAESKey(result[0])
+              setSongCount(result[1])
+          })
+          .catch((result) => {
+              console.log("error", result);
+          })
     }, [])
 
     const clickHandler = () => {
@@ -43,10 +59,11 @@ function SongCard(props) {
     const renderModal = () => {
         ReactDOM.render(
         <Modal 
-            name={this.props.music.musicName} 
-            id={this.props.music.id} 
-            contractAddress={this.props.contractAddress}
-            currentAccount={this.props.currentAccount}
+            name={props.music.musicName} 
+            musicIdentifier={props.music.musicIdentifier}
+            id={songCount} 
+            contractAddress={props.contractAddress}
+            currentAccount={props.currentAccount}
         />, 
         document.getElementById("modal")
         )
@@ -100,7 +117,7 @@ function SongCard(props) {
         //decrypt
         console.time("decrypt")
         var str = uintToString(result.data)
-        const decrypted = crypto.AES.decrypt(str, props.music.aesKey).toString(crypto.enc.Utf8)
+        const decrypted = crypto.AES.decrypt(str, aesKey).toString(crypto.enc.Utf8)
         // str = decrypted.toString(crypto.enc.Utf8) //convert word array to string of base utf8
         const wordArray = crypto.enc.Hex.parse(decrypted) //c8 new word array
         var text =  await wordArrayToByteArray(wordArray, wordArray.length )
@@ -115,7 +132,7 @@ function SongCard(props) {
 
     const assignVarToState = async() => {
         await decrypt()
-        SetCurrent((props.music.id).toNumber())
+        SetCurrent((songCount))
         setCurrentSong(props.music.musicName)
         setCurrentArtist(props.music.artistName)
     }

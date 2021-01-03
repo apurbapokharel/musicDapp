@@ -67,7 +67,7 @@ function SimpleModal(props) {
   const body = (
     <form style={modalStyle} className={classes.paper} onSubmit={(event) => {
         event.preventDefault();
-        props.contractAddress.methods.musicTip(props.id, price).send({ from : props.currentAccount })
+        props.contractAddress.methods.musicTip(props.id, props.musicIdentifier, price*10**10).send({ from : props.currentAccount })
         handleClose();
       }}>
         <TextField value={price} id="price" label="Price eg 1.2 DAPP" className={classes.text} type="text" onChange={e => setPrice(e.target.value)}  />

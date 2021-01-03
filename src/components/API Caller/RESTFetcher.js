@@ -37,10 +37,10 @@ export const getSongKey = async (data) => {
     var changeableUrl = `${url}/getSongKey`;
 
     return new Promise(async (resolve, reject) => {
-        const res = await axios.get(changeableUrl);
+        const res = await axios.post(changeableUrl, data);
         console.log(res);
         if(res){
-            resolve({count: res})
+            resolve(res.data)
         }else{
             reject('Cannot get song count');
         }

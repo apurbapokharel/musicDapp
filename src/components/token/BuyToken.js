@@ -39,7 +39,7 @@ function BuyToken(){
                             event.preventDefault()
                             const value = numberOfToken
                             console.log(value)
-                            tokenSaleContract.methods.buyTokens(value, currentAccount).send({from: currentAccount, value : value * tokenPriceWEI })
+                            tokenSaleContract.methods.buyTokens(value*10**10, currentAccount).send({from: currentAccount, value : (value * tokenPriceWEI)})
                         }} role="form">
                             <div className="form-group">
                                 <div className="input-group">

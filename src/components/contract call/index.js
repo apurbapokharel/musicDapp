@@ -28,7 +28,6 @@ import {
 } from "../../store/actions";
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import IPFS from "ipfs";
 import OrbitDB from "orbit-db";
 import { getSongCount, getMusicIdentifiers } from '../API Caller/RESTFetcher'
 

@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const cards = [1, 2, 3, 4];
+const cards = [1,2];
 
 function RecentlyPlayed() {
   const classes = useStyles();

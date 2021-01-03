@@ -160,6 +160,8 @@ function Index()
         await postSongs({
           'songIdentifier': String(title + singerName),
           'songCount': currentSongCount+1,
+          'songName': title, 
+          'artistName': singerName,
           'aesKey' : aesKey
         })
         .then((bool) => {
