@@ -17,18 +17,11 @@ import {
   ADD_TOKENHELD,
   ADD_CURRENTADDRESS,
   ADD_TOKENPRICEWEI,
-  START_ORBITDB_INITILIZE,
-  CREATE_ORBITDB_SUCCESS,
-  CREATE_ORBITDB_FAILED,
-  MUSIC_DB_INITILIZE,
-  MUSIC_DB_CREATE,
-  MUSIC_DB_CREATE_ERROR,
   ADD_MUSICCONTRACT_CONTRACT,
   ADD_REDEEMABLE_BALANCE,
 } from "../../store/actions";
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import OrbitDB from "orbit-db";
 import { getSongCount, getMusicIdentifiers } from '../API Caller/RESTFetcher'
 
 function Index(){
@@ -117,7 +110,7 @@ function Index(){
             const contract = web3.eth.Contract(DappTokenInstance.abi, networkData1.address)
             dispatch(ADD_TOKEN_CONTRACT(contract))
             const tokenHeld = await contract.methods.balanceOf(accounts[0]).call()
-            dispatch(ADD_TOKENHELD(tokenHeld.toNumber()))
+            dispatch(ADD_TOKENHELD(tokenHeld.toNumber()/10**10))
         }          
         
         const networkData2 = DappTokenSaleInstance.networks[networkId]
@@ -130,7 +123,7 @@ function Index(){
             // // console.log(count)
             dispatch(ADD_TOKENPRICEWEI(price.toNumber()))
             dispatch(ADD_TOKENPRICEETH(web3.utils.fromWei(price.toString(), 'Ether')))
-            dispatch(ADD_TOKENSOLD(count.toNumber()))
+            dispatch(ADD_TOKENSOLD(count.toNumber()/10**10))
         }
         
         const networkData3 = MusicContract.networks[networkId]
@@ -138,7 +131,7 @@ function Index(){
           const contract = web3.eth.Contract(MusicContract.abi, networkData3.address)
           dispatch(ADD_MUSICCONTRACT_CONTRACT(contract))
           const redeemableBalnce = await contract.methods.balanceOf(accounts[0]).call()
-          dispatch(ADD_REDEEMABLE_BALANCE(redeemableBalnce.toNumber()))
+          dispatch(ADD_REDEEMABLE_BALANCE(redeemableBalnce.toNumber()/10**10))
         }
         //console.log('musicContract address', networkData.address);
     }

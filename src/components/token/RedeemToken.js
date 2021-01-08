@@ -38,7 +38,7 @@ function BuyToken(){
                             //const value = numberOfToken * 10**10
                             const value = numberOfToken
                             console.log(value)
-                            musicContactContract.methods.redeemTokens(value, currentAccount).send({from: currentAccount})
+                            musicContactContract.methods.redeemTokens(value*10**10, currentAccount).send({from: currentAccount})
                         }} role="form">
                             <div className="form-group">
                                 <div className="input-group">

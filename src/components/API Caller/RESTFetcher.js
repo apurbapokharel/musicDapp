@@ -3,11 +3,11 @@ import axios from 'axios';
 const url  = "http://localhost:3000"
 
 export const postSongs = (data) => {
-    console.log("postSongs", data);
+    // console.log("postSongs", data);
     let changeableUrl = `${url}/uploadSong`;
 return new Promise(async (resolve, reject) => {
         const res = await axios.post(changeableUrl, data);
-        console.log((res));
+        // console.log((res));
         if(res.data){
             resolve(true);
         }else{
@@ -17,11 +17,27 @@ return new Promise(async (resolve, reject) => {
 };
 
 export const postSongHash = (data) => {
-    console.log("postSongHash", data);
+    // console.log("postSongHash", data);
     let changeableUrl = `${url}/uploadSongHash`;
     return new Promise(async (resolve, reject) => {
         const res = await axios.post(changeableUrl, data);
-        console.log((res));
+        // console.log((res));
+        if(res.data){
+            resolve(true);
+        }else{
+            reject(false);
+        }
+            
+
+});
+}
+
+export const purchaseSong = (data) => {
+    // console.log("purchaseSong", data);
+    let changeableUrl = `${url}/purchaseSong`;
+    return new Promise(async (resolve, reject) => {
+        const res = await axios.post(changeableUrl, data);
+        // console.log((res));
         if(res.data){
             resolve(true);
         }else{
@@ -33,12 +49,28 @@ export const postSongHash = (data) => {
 }
 
 export const getSongKey = async (data) => {
-    console.log("getSongKey", data);
+    // console.log("getSongKey", data);
     var changeableUrl = `${url}/getSongKey`;
 
     return new Promise(async (resolve, reject) => {
         const res = await axios.post(changeableUrl, data);
-        console.log(res);
+        // console.log(res);
+        if(res){
+            resolve(res.data)
+        }else{
+            reject('Cannot get song count');
+        }
+        
+    });
+};
+
+export const getPurchaseList = async (data) => {
+    // console.log("getSongKey", data);
+    var changeableUrl = `${url}/getPurchasedSongList`;
+
+    return new Promise(async (resolve, reject) => {
+        const res = await axios.post(changeableUrl, data);
+        // console.log(res);
         if(res){
             resolve(res.data)
         }else{
@@ -49,12 +81,12 @@ export const getSongKey = async (data) => {
 };
 
 export const compareSongHash = async (data) => {
-    console.log("compareSongHash", data);
+    // console.log("compareSongHash", data);
     var changeableUrl = `${url}/compareSongHash`;
 
     return new Promise(async (resolve, reject) => {
         const res = await axios.post(changeableUrl, data);
-        console.log(res); 
+        // console.log(res); 
         if(res.data == false){
            resolve(false)
             
@@ -70,7 +102,7 @@ export const getSongCount = async () => {
 
     return new Promise(async (resolve, reject) => {
         const res = await axios.get(changeableUrl);
-        console.log(res); 
+        // console.log(res); 
         if(res.data){
             resolve(res.data)
             
@@ -88,6 +120,22 @@ export const getMusicIdentifiers = async () => {
         const res = await axios.get(changeableUrl);
         // console.log(res); 
         if(res.data){
+            resolve(res.data)
+            
+        }else{
+            reject(false);
+        }
+        
+    });
+};
+
+export const searchSong = async (data) => {
+    var changeableUrl = `${url}/searchSong`;
+
+    return new Promise(async (resolve, reject) => {
+        const res = await axios.post(changeableUrl, data);
+        console.log(res); 
+        if(res.data != false ){
             resolve(res.data)
             
         }else{

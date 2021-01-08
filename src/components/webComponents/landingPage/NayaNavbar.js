@@ -18,7 +18,7 @@ class NayaNavbar extends Component {
                     </IconButton>
                     </div>
                     <ul>
-                        <Link to='/musichome'>
+                        <Link to='/musicHome'>
                             <li className="milauni">Library</li>
                         </Link>  
                         <Link to='/buyTokens'>

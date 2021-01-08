@@ -17,7 +17,7 @@ import { useContext } from 'react';
 import playerContext from '../../../context/playerContext';
 import fleek from '@fleekhq/fleek-storage-js';
 import crypto from 'crypto-js';
-import { getSongKey } from '../../API Caller/RESTFetcher';
+import { getSongKey, purchaseSong, getPurchaseList } from '../../API Caller/RESTFetcher';
 
 function SongCard(props) {
 
@@ -25,26 +25,41 @@ function SongCard(props) {
     const[imageURL, setImageURL] = useState()
     const[aesKey, setAESKey] = useState() 
     const[songCount, setSongCount] = useState()
+    const[downloadStatus, setDownloadStatus] = useState()
     const { SetCurrent, setCurrentSong, setCurrentArtist, setSongSource } = useContext(playerContext)
 
-    useEffect(async() => {
-        var str = props.music.musicIdentifier
-        console.log(props.music.musicIdentifier);
-        var str2 = str.replace(/\s/g, '%20')
-        var url = `https://apurbapokharel-team-bucket.storage.fleek.co/my-folder/${str2}/image`
-        setImageURL(new String(url))
-        //get aes key
-        await getSongKey({
-            'songIdentifier': props.music.musicIdentifier
-          })
-          .then((result) => {
-              console.log("aes key", result);
-              setAESKey(result[0])
-              setSongCount(result[1])
-          })
-          .catch((result) => {
-              console.log("error", result);
-          })
+    useEffect(() => {
+        (async() => {
+            console.log('props passed', props, props.music.musicIdentifier)
+            var str = props.music.musicIdentifier
+            console.log(props.music.musicIdentifier);
+            var str2 = str.replace(/\s/g, '%20')
+            var url = `https://apurbapokharel-team-bucket.storage.fleek.co/my-folder/${str2}/image`
+            setImageURL(new String(url))
+            //get aes key
+            await getSongKey({
+                'songIdentifier': props.music.musicIdentifier
+            })
+            .then((result) => {
+                // console.log("aes key", result);
+                setAESKey(result[0])
+                setSongCount(result[1])
+            })
+            .catch((result) => {
+                console.log("error", result);
+            })
+            //check to see if song is already purchased
+            await getPurchaseList({
+                'userPublicKey': props.currentAccount
+            })
+            .then((result) => {
+                const renderDownloadStatus = result.find(song => song == props.music.musicIdentifier)
+                setDownloadStatus(renderDownloadStatus)
+            })
+            .catch((result) => {
+                console.log("error", result);
+            })  
+        })()
     }, [])
 
     const clickHandler = () => {
@@ -136,10 +151,25 @@ function SongCard(props) {
         setCurrentSong(props.music.musicName)
         setCurrentArtist(props.music.artistName)
     }
+
+    const purchaseMusic = async() => {
+        await purchaseSong({
+            'songIdentifier': props.music.musicIdentifier,
+            'userPublicKey': props.currentAccount
+          })
+          .then((bool) => {
+            console.log('success');
+          })
+          .catch((bool) => {
+            console.log('fail');
+          })
+        props.contractAddress.methods.musicPurchase(songCount, props.music.musicIdentifier).send({ from : props.currentAccount })
+
+    }
     return (
         <Aux>
         <div className="sample__game" key="item.key">
-            <div className="sampleCard__rank">
+            <div className="sampleCard__rank" onClick={()=>{console.log('fav pressed')}}>
                 <FavoriteBorderIcon />
             </div>
 
@@ -167,26 +197,30 @@ function SongCard(props) {
                 </button>
 
                 <div className="sample__streamer">
+                    {downloadStatus 
+                    ? null
+                    :
                     <div className="sample__card__streamer1">
-                    <Tooltip title="download">
+                    <Tooltip title="purchase" onClick={() => purchaseMusic()}>
                         <CloudDownloadIcon />
                     </Tooltip>
-                    </div>               
+                    </div> 
+                    }            
                     <div className="sample__card__streamer2">
-                    <Tooltip title="play">
-                        <PlayCircleFilledWhiteIcon onClick={() => assignVarToState()}/>
+                    <Tooltip title="play" onClick={() => assignVarToState()}>
+                        <PlayCircleFilledWhiteIcon />
                     </Tooltip>
                     </div> 
-                    <div className="sample__card__streamer2">
+                    {/* <div className="sample__card__streamer2">
                     <Tooltip title="add to favourite">
                         <FavoriteIcon />
                     </Tooltip>
-                    </div>                
-                    <div className="sample__card__streamer1">
+                    </div>                 */}
+                    {/* <div className="sample__card__streamer1">
                     <Tooltip title="add to queue">
                         <QueueIcon />
                     </Tooltip>
-                    </div>
+                    </div> */}
                     <div className="sample__card__streamer1">
                     <Tooltip title="tip artist" onClick={() => renderModal()}>
                         <MonetizationOnIcon />

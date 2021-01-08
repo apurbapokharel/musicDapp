@@ -19,8 +19,10 @@ import {Grid,Container} from '@material-ui/core';
 import { useContext } from 'react'
 import playerContext from '../../../../context/playerContext';
 import { Link } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 
 function Sidebar() {
+  const history = useHistory();
   const { SetCurrent, currentSong, songs } = useContext(playerContext)
     // constructor (props) {
     //     super(props);

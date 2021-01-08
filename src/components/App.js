@@ -13,7 +13,6 @@ import TrackTokens from './token/TrackToken';
 import RedeemTokens from './token/RedeemToken';
 import ViewStats from './token/ViewStats';
 
-import Web3 from 'web3'
 import Index from './contract call';
 class App extends Component{
   render(){

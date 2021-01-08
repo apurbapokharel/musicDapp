@@ -87,7 +87,7 @@ function BuyToken(){
                             const address = transferAddress
                             const value = transferValue
                             // console.log(address)
-                            tokenContract.methods.transfer(transferAddress, value, currentAccount).send({from: currentAccount })
+                            tokenContract.methods.tTransfer(transferAddress, value*10**10, currentAccount).send({from: currentAccount })
                         }} role="form">
                             <div className="form-group">
                                 <div className="input-group">

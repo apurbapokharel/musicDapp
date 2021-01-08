@@ -78,13 +78,11 @@ contract Musicc {
         //check is there is enough token of the msg.sender
         require(tokenContract.balanceOf(msg.sender) >= _product.price, 'msg.sender has insufficient token');
 
-        uint256 _tokenPrice = _product.price;
-
         //call storeAndAllocateTokens from musiccontract
         require(musicContract.storeAndAllocateTokens(_product.price, _musicIdentifier), 'unable to call storeAndAllocateToken');
 
         //trasnfer the total token to musicContract
-        require(tokenContract.tTransfer(address(musicContract), _tokenPrice, msg.sender), 'unable to call transfer fucntion of tokencontract');
+        require(tokenContract.tTransfer(address(musicContract), _product.price, msg.sender), 'unable to call transfer fucntion of tokencontract');
        
         //trigger an event 
         emit MusicPurchased(_product.musicName, _product.artistName, _product.price, _product.musicIdentifier);
