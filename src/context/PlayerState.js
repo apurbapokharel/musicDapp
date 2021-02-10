@@ -10,7 +10,8 @@ import {
   TOGGLE_PLAYING,
   SET_CURRENT_SONGG,
   SET_CURRENT_ARTIST,
-  SET_SONG_SRC
+  SET_SONG_SRC,
+  SET_SONG_IMAGE_URL
 } from './types'
 
 const PlayerState = props => {
@@ -23,7 +24,8 @@ const PlayerState = props => {
     audio: null,
     currentSongg: '---',
     currentArtist: '---',
-    songSrc: null
+    songSrc: null,
+    songImageURL: null
   }
   const [state, dispatch] = useReducer(playerReducer, initialState);
 
@@ -84,6 +86,10 @@ const PlayerState = props => {
   //set song source
   const setSongSource = byteArray => dispatch({ type: SET_SONG_SRC, data: byteArray})
 
+  //set song image url
+  const setCurrentSongImageURL = url => {
+    dispatch({ type: SET_SONG_IMAGE_URL, data: url })
+  }
   return <playerContext.Provider
     value={{ 
       currentSong: state.currentSong,
@@ -95,6 +101,7 @@ const PlayerState = props => {
       songName: state.currentSongg,
       artistName: state.currentArtist,
       songSrc: state.songSrc,
+      songURL: state.songImageURL,
       nextSong,
       prevSong,
       SetCurrent,
@@ -104,7 +111,8 @@ const PlayerState = props => {
       handleEnd,
       setCurrentSong,
       setCurrentArtist,
-      setSongSource
+      setSongSource,
+      setCurrentSongImageURL
     }}>
 
     {props.children}

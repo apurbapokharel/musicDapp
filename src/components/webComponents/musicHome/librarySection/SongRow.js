@@ -1,42 +1,136 @@
-import React from 'react'
+import React, { useState, useEffect, Component } from 'react';
 import './SongRow.css';
 import {Grid, Paper} from '@material-ui/core';
 import Aux from '../../../hoc/Auxiliary';
 import { useContext } from 'react';
 import playerContext from '../../../../context/playerContext';
-
+import { getSongKey, purchaseSong, getPurchaseList } from '../../../API Caller/RESTFetcher';
+import fleek from '@fleekhq/fleek-storage-js';
+import crypto from 'crypto-js';
 
 function SongRow(props) {
+
+    const[imageURL, setImageURL] = useState()
+    const { SetCurrent, setCurrentSong, setCurrentArtist, setSongSource, setCurrentSongImageURL } = useContext(playerContext)
+    const[aesKey, setAESKey] = useState() 
+    const[songCount, setSongCount] = useState()
+    const[downloadStatus, setDownloadStatus] = useState()
+
+    useEffect(() => {
+        (async() => {
+            console.log('props passed', props, props.music.musicIdentifier)
+            var str = props.music.musicIdentifier
+            console.log(props.music.musicIdentifier);
+            var str2 = str.replace(/\s/g, '%20')
+            var url = `https://apurbapokharel-team-bucket.storage.fleek.co/my-folder/${str2}/image`
+            setImageURL(new String(url))
+            //get aes key
+            await getSongKey({
+                'songIdentifier': props.music.musicIdentifier
+            })
+            .then((result) => {
+                // console.log("aes key", result);
+                setAESKey(result[0])
+                setSongCount(result[1])
+            })
+            .catch((result) => {
+                console.log("error", result);
+            })  
+        })()
+    }, [props])
+
+    function uintToString(uintArray) {
+        var decodedStr = new TextDecoder('utf-8').decode(uintArray)
+        return decodedStr  
+    }
+
+    function wordToByteArray(word, length) {
+        var ba = [],xFF = 0xFF
+        if (length > 0)
+         ba.push(word >>> 24)
+        if (length > 1)
+         ba.push((word >>> 16) & xFF)
+        if (length > 2)
+         ba.push((word >>> 8) & xFF)
+        if (length > 3)
+         ba.push(word & xFF)
+        return ba
+    }
+
+    function wordArrayToByteArray(wordArray, length) {
+        if (wordArray.hasOwnProperty("sigBytes") && wordArray.hasOwnProperty("words")) {
+            length = wordArray.sigBytes
+        wordArray = wordArray.words
+        }
+    
+        var result = [],bytes,i = 0
+        while (length > 0) {
+            bytes = wordToByteArray(wordArray[i], Math.min(4, length))
+            length -= bytes.length
+            result.push(bytes)
+            i++
+        }
+    return result.flat(Infinity) 
+    }
+
+    const decrypt = async() => {
+        //get data
+        const input = {
+            apiKey: new String(process.env.REACT_APP_API_KEY),
+            apiSecret: new String(process.env.REACT_APP_API_SECRET),
+            key: `my-folder/${String(props.music.musicIdentifier)}/song`,
+            getOptions: ['hash', 'data', 'publicUrl', 'key']      
+        };
+        console.time("get file");
+        const result = await fleek.get(input);
+        console.timeEnd("get file");
+        //decrypt
+        console.time("decrypt")
+        var str = uintToString(result.data)
+        const decrypted = crypto.AES.decrypt(str, aesKey).toString(crypto.enc.Utf8)
+        // str = decrypted.toString(crypto.enc.Utf8) //convert word array to string of base utf8
+        const wordArray = crypto.enc.Hex.parse(decrypted) //c8 new word array
+        var text =  await wordArrayToByteArray(wordArray, wordArray.length )
+        console.timeEnd("decrypt")
+        console.log(text)
+        //c8ting blob
+        var arrayBufferView = new Uint8Array(text)
+        var blob = new Blob( [ arrayBufferView ], { type: 'music/mp3' } )
+        var songSrc = URL.createObjectURL(blob)
+        setSongSource(songSrc)
+    }
+
+    const assignVarToState = async() => {
+        await decrypt()
+        SetCurrent((songCount))
+        setCurrentSong(props.music.musicName)
+        setCurrentArtist(props.music.artistName)
+        setCurrentSongImageURL(imageURL)
+    }
+
     return (
-        // <Aux>
         <Grid container className="songRowLayout">
             <Grid item xs={10}>
-            <div className="songRow">
-            <img 
-                className="songRow__album"
-                // src={track.album.images[0].url}
-                src="https://i.pinimg.com/236x/27/7c/15/277c15409a7b07da1c169933e7692828--taylor-swift-curls-pictures-of-taylor-swift.jpg"
-                alt=""
-            />
-            
-            <div className="songRow__infoAndDuration">
-            <div className="songRow__info">
-                <h1>{props.song}</h1>
-                {/* <h1>The Beaten Path</h1> */}
-                <p>
-                    {/* {track.artists.map((artist) => artist.name).join(", ")} -{" "} */}
-                    {/* {track.album.name} */}
-                    {props.singer}
-                </p>
-            </div>
-            </div>
-            </div>
+                <div className="songRow" onClick={() => assignVarToState()}>
+                    <img 
+                        className="songRow__album"
+                        src={imageURL}
+                        alt=""
+                    />   
+                    <div className="songRow__infoAndDuration">
+                        <div className="songRow__info">
+                            <h1>{props.music.musicName}</h1>
+                            <p>
+                                {props.music.artistName}
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </Grid>
             <Grid item xs={2} className="track__duration">
-                <p>3:42</p>
+                {/* <p>3:42</p> */}
             </Grid>
         </Grid>
-        // </Aux>
     )
 }
 

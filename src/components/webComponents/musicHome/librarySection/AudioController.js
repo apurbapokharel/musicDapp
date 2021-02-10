@@ -24,6 +24,7 @@ const {
     songName,
     artistName,
     songSrc,
+    songURL,
     toggleRandom,
     toggleRepeat,
     togglePlaying,
@@ -74,7 +75,7 @@ const {
         <Grid item xs={3} className="footer__left">
         <img 
             className="footer__albumLogo"
-            src="https://i.pinimg.com/236x/27/7c/15/277c15409a7b07da1c169933e7692828--taylor-swift-curls-pictures-of-taylor-swift.jpg"
+            src={songURL}
             alt=""
         />
         <div className="footer__songInfo">

@@ -26,7 +26,7 @@ function SongCard(props) {
     const[aesKey, setAESKey] = useState() 
     const[songCount, setSongCount] = useState()
     const[downloadStatus, setDownloadStatus] = useState()
-    const { SetCurrent, setCurrentSong, setCurrentArtist, setSongSource } = useContext(playerContext)
+    const { SetCurrent, setCurrentSong, setCurrentArtist, setSongSource, setCurrentSongImageURL } = useContext(playerContext)
 
     useEffect(() => {
         (async() => {
@@ -53,7 +53,8 @@ function SongCard(props) {
                 'userPublicKey': props.currentAccount
             })
             .then((result) => {
-                const renderDownloadStatus = result.find(song => song == props.music.musicIdentifier)
+                // console.log('reult', result)
+                const renderDownloadStatus = result.find(song => song.songIdentifier == props.music.musicIdentifier)
                 setDownloadStatus(renderDownloadStatus)
             })
             .catch((result) => {
@@ -150,6 +151,7 @@ function SongCard(props) {
         SetCurrent((songCount))
         setCurrentSong(props.music.musicName)
         setCurrentArtist(props.music.artistName)
+        setCurrentSongImageURL(imageURL)
     }
 
     const purchaseMusic = async() => {

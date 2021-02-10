@@ -5,7 +5,8 @@ import {
     TOGGLE_PLAYING,
     SET_CURRENT_SONGG,
     SET_CURRENT_ARTIST,
-    SET_SONG_SRC
+    SET_SONG_SRC,
+    SET_SONG_IMAGE_URL
   } from './types'
   
   export default (state, action) => {
@@ -45,6 +46,11 @@ import {
         return {
           ...state,
           songSrc: action.data
+        }
+      case SET_SONG_IMAGE_URL:
+        return {
+          ...state,
+          songImageURL: action.data
         }
       default:
         return state;
