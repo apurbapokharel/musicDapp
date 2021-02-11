@@ -24,6 +24,7 @@ function SongCard(props) {
     const[showMe, setShowMe] = useState(false)
     const[imageURL, setImageURL] = useState()
     const[aesKey, setAESKey] = useState() 
+    const[iv, setIV] = useState()
     const[songCount, setSongCount] = useState()
     const[downloadStatus, setDownloadStatus] = useState()
     const { SetCurrent, setCurrentSong, setCurrentArtist, setSongSource, setCurrentSongImageURL } = useContext(playerContext)
@@ -41,9 +42,10 @@ function SongCard(props) {
                 'songIdentifier': props.music.musicIdentifier
             })
             .then((result) => {
-                // console.log("aes key", result);
+                console.log("aes key", result);
                 setAESKey(result[0])
                 setSongCount(result[1])
+                setIV(result[2])
             })
             .catch((result) => {
                 console.log("error", result);
@@ -133,7 +135,7 @@ function SongCard(props) {
         //decrypt
         console.time("decrypt")
         var str = uintToString(result.data)
-        const decrypted = crypto.AES.decrypt(str, aesKey).toString(crypto.enc.Utf8)
+        const decrypted = crypto.AES.decrypt(str, aesKey, { iv: iv }).toString(crypto.enc.Utf8)
         // str = decrypted.toString(crypto.enc.Utf8) //convert word array to string of base utf8
         const wordArray = crypto.enc.Hex.parse(decrypted) //c8 new word array
         var text =  await wordArrayToByteArray(wordArray, wordArray.length )

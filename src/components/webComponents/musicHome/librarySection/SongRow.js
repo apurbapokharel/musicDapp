@@ -13,6 +13,7 @@ function SongRow(props) {
     const[imageURL, setImageURL] = useState()
     const { SetCurrent, setCurrentSong, setCurrentArtist, setSongSource, setCurrentSongImageURL } = useContext(playerContext)
     const[aesKey, setAESKey] = useState() 
+    const[iv, setIV] = useState()
     const[songCount, setSongCount] = useState()
     const[downloadStatus, setDownloadStatus] = useState()
 
@@ -32,6 +33,7 @@ function SongRow(props) {
                 // console.log("aes key", result);
                 setAESKey(result[0])
                 setSongCount(result[1])
+                setIV(result[2])
             })
             .catch((result) => {
                 console.log("error", result);
@@ -87,7 +89,7 @@ function SongRow(props) {
         //decrypt
         console.time("decrypt")
         var str = uintToString(result.data)
-        const decrypted = crypto.AES.decrypt(str, aesKey).toString(crypto.enc.Utf8)
+        const decrypted = crypto.AES.decrypt(str, aesKey, { iv: iv }).toString(crypto.enc.Utf8)
         // str = decrypted.toString(crypto.enc.Utf8) //convert word array to string of base utf8
         const wordArray = crypto.enc.Hex.parse(decrypted) //c8 new word array
         var text =  await wordArrayToByteArray(wordArray, wordArray.length )

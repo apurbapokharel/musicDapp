@@ -25,10 +25,11 @@ function Index()
     const[writerRevenue, setWriterRevenue] = useState("20")
     const[writerPublicKey, setWriterPublicKey] = useState("0x98599D175226529D276BE9DEa5e79faD430F0AA0")
     const[cost, setCost] = useState("10")
-    const[costPerStream, setCostPerStream] = useState("1")
+    // const[costPerStream, setCostPerStream] = useState("1")
     const[songData, setSongData] = useState()
     const[songImage, setSongImage] = useState()
     const[aesKey, setAesKey] = useState()
+    const[iv, setIV] = useState()
     const[musicIdentifier, setMusicIdentifer] = useState()
     const[musicHash, setMusicHash] = useState()
     const[imageHash, setImageHash] = useState()
@@ -96,10 +97,14 @@ function Index()
         const str = crypto.enc.Hex.stringify(wordArray);
         setDataToHash(str)
         var aesKey = randomKeyGenerator(32);
+        var IV = randomKeyGenerator(16);
+        // aesKey = crypto.enc.Base64.parse(aesKey);
+        // IV  = crypto.enc.Base64.parse(IV);
         setAesKey(aesKey);
-        console.log(aesKey);
-        const ct = crypto.AES.encrypt(str, aesKey)
-        var ctstr = ''
+        setIV(IV);
+        console.log(aesKey, IV);
+        const ct = crypto.AES.encrypt(str, aesKey, { iv: IV });
+        var ctstr = '';
         ctstr = ct.toString();
         ctstr = Buffer.from(ctstr)
         console.timeEnd("encrypt")
@@ -162,7 +167,8 @@ function Index()
           'songCount': currentSongCount+1,
           'songName': title, 
           'artistName': singerName,
-          'aesKey' : aesKey
+          'aesKey' : aesKey,
+          'iv': iv
         })
         .then((bool) => {
         })
@@ -315,7 +321,7 @@ function Index()
                   />
                 </div>
                 
-                <div className="stream">
+                {/* <div className="stream">
                   <label htmlFor="streamCost">Cost per stream</label>
                   <input
                     placeholder="no. of tokens"
@@ -325,7 +331,7 @@ function Index()
                     value={costPerStream}
                     onChange={(e) => setCostPerStream(e.target.value)}  
                   />
-                </div>            
+                </div>             */}
                 
                 <div className="download">
                   <label htmlFor="track">Select Track</label>

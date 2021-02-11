@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const cards = [1,2];
+const cards = [1];
 
 function LatestUpload() {
   const classes = useStyles();
