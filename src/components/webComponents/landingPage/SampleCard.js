@@ -25,6 +25,7 @@ function SongCard(props) {
     const[imageURL, setImageURL] = useState()
     const[aesKey, setAESKey] = useState() 
     const[iv, setIV] = useState()
+    const[costPerStream, setCostPerStream] = useState("1")
     const[songCount, setSongCount] = useState()
     const[downloadStatus, setDownloadStatus] = useState()
     const { SetCurrent, setCurrentSong, setCurrentArtist, setSongSource, setCurrentSongImageURL } = useContext(playerContext)
@@ -46,6 +47,7 @@ function SongCard(props) {
                 setAESKey(result[0])
                 setSongCount(result[1])
                 setIV(result[2])
+                setCostPerStream(result[3])
             })
             .catch((result) => {
                 console.log("error", result);
@@ -149,11 +151,18 @@ function SongCard(props) {
     }
 
     const assignVarToState = async() => {
-        await decrypt()
-        SetCurrent((songCount))
-        setCurrentSong(props.music.musicName)
-        setCurrentArtist(props.music.artistName)
-        setCurrentSongImageURL(imageURL)
+        props.contractAddress.methods.musicTip(songCount, props.music.musicIdentifier, costPerStream*10**10).send({ from : props.currentAccount })
+        .on('error', () => {
+            window.alert('Cannot listen without paying streaming amount');
+        })
+        .on('confirmation', async() => {
+            console.log('success');
+            await decrypt()
+            SetCurrent((songCount))
+            setCurrentSong(props.music.musicName)
+            setCurrentArtist(props.music.artistName)
+            setCurrentSongImageURL(imageURL)
+        })
     }
 
     const purchaseMusic = async() => {
@@ -173,9 +182,9 @@ function SongCard(props) {
     return (
         <Aux>
         <div className="sample__game" key="item.key">
-            <div className="sampleCard__rank" onClick={()=>{console.log('fav pressed')}}>
+            {/* <div className="sampleCard__rank" onClick={()=>{console.log('fav pressed')}}>
                 <FavoriteBorderIcon />
-            </div>
+            </div> */}
 
             <div className="sample__front">
                 <img className="sample__thumbnail" src={imageURL} alt="" />
@@ -188,17 +197,20 @@ function SongCard(props) {
             </div>
 
             <div className="sample__back">
-                <div className="sample__streaming__info">
+                {/* <div className="sample__streaming__info">
                     <p className="sample__game__stat">89.5k<span>Streams</span></p>
                     <p className="sample__game__stat">21.7k<span>Downloads</span></p>
+                </div> */}
+                <div className="sample__streaming__info">
+                    <p className="sample__game__stat">1 MSIC<span>Per Stream</span></p>
                 </div>
-
+                {/* 
                 <button 
                     className="sample__btn"
                     onClick={() => clickHandler()}
                 >
                     View Song Details
-                </button>
+                </button> */}
 
                 <div className="sample__streamer">
                     {downloadStatus 

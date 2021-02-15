@@ -25,7 +25,7 @@ function Index()
     const[writerRevenue, setWriterRevenue] = useState("20")
     const[writerPublicKey, setWriterPublicKey] = useState("0x98599D175226529D276BE9DEa5e79faD430F0AA0")
     const[cost, setCost] = useState("10")
-    // const[costPerStream, setCostPerStream] = useState("1")
+    const[costPerStream, setCostPerStream] = useState("1")
     const[songData, setSongData] = useState()
     const[songImage, setSongImage] = useState()
     const[aesKey, setAesKey] = useState()
@@ -168,7 +168,8 @@ function Index()
           'songName': title, 
           'artistName': singerName,
           'aesKey' : aesKey,
-          'iv': iv
+          'iv': iv,
+          'costPerStream': costPerStream
         })
         .then((bool) => {
         })
@@ -321,7 +322,7 @@ function Index()
                   />
                 </div>
                 
-                {/* <div className="stream">
+                <div className="stream">
                   <label htmlFor="streamCost">Cost per stream</label>
                   <input
                     placeholder="no. of tokens"
@@ -331,7 +332,7 @@ function Index()
                     value={costPerStream}
                     onChange={(e) => setCostPerStream(e.target.value)}  
                   />
-                </div>             */}
+                </div>            
                 
                 <div className="download">
                   <label htmlFor="track">Select Track</label>

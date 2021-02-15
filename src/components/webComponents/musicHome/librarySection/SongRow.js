@@ -14,6 +14,7 @@ function SongRow(props) {
     const { SetCurrent, setCurrentSong, setCurrentArtist, setSongSource, setCurrentSongImageURL } = useContext(playerContext)
     const[aesKey, setAESKey] = useState() 
     const[iv, setIV] = useState()
+    const[costPerStream, setCostPerStream] = useState("1")
     const[songCount, setSongCount] = useState()
     const[downloadStatus, setDownloadStatus] = useState()
 
@@ -34,6 +35,7 @@ function SongRow(props) {
                 setAESKey(result[0])
                 setSongCount(result[1])
                 setIV(result[2])
+                setCostPerStream(result[3])
             })
             .catch((result) => {
                 console.log("error", result);
@@ -103,11 +105,18 @@ function SongRow(props) {
     }
 
     const assignVarToState = async() => {
-        await decrypt()
-        SetCurrent((songCount))
-        setCurrentSong(props.music.musicName)
-        setCurrentArtist(props.music.artistName)
-        setCurrentSongImageURL(imageURL)
+        props.contractAddress.methods.musicTip(songCount, props.music.musicIdentifier, costPerStream*10**10).send({ from : props.currentAccount })
+        .on('error', () => {
+            window.alert('Cannot listen without paying streaming amount');
+        })
+        .on('confirmation', async() => {
+            console.log('success');
+            await decrypt()
+            SetCurrent((songCount))
+            setCurrentSong(props.music.musicName)
+            setCurrentArtist(props.music.artistName)
+            setCurrentSongImageURL(imageURL)
+        })
     }
 
     return (
@@ -130,7 +139,7 @@ function SongRow(props) {
                 </div>
             </Grid>
             <Grid item xs={2} className="track__duration">
-                {/* <p>3:42</p> */}
+                <p>1 MSIC per stream</p>
             </Grid>
         </Grid>
     )
