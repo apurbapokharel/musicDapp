@@ -79,13 +79,13 @@ contract Musicc {
         require(tokenContract.balanceOf(msg.sender) >= _product.price, 'msg.sender has insufficient token');
 
         //call storeAndAllocateTokens from musiccontract
-        require(musicContract.storeAndAllocateTokens(_product.price, _musicIdentifier), 'unable to call storeAndAllocateToken');
+        require(musicContract.storeAndAllocateTokens(_product.price*10**10, _musicIdentifier), 'unable to call storeAndAllocateToken');
 
         //trasnfer the total token to musicContract
-        require(tokenContract.tTransfer(address(musicContract), _product.price, msg.sender), 'unable to call transfer fucntion of tokencontract');
+        require(tokenContract.tTransfer(address(musicContract), _product.price*10**10, msg.sender), 'unable to call transfer fucntion of tokencontract');
        
         //trigger an event 
-        emit MusicPurchased(_product.musicName, _product.artistName, _product.price, _product.musicIdentifier);
+        emit MusicPurchased(_product.musicName, _product.artistName, _product.price*10**10, _product.musicIdentifier);
     } 
 
     function musicTip(uint256 _musicCount, string memory _musicIdentifier, uint256 _tokenNumber) public 

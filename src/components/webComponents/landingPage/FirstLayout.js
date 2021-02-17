@@ -58,7 +58,7 @@ class FirstLayout extends Component {
                         Connecting Artists and Fans directly using Ethereum
                         </Typography>
                         <Typography variant="h5" align="center" color="textinherit" gutterBottom>
-                            Listen to all new songs with  low cost using 
+                            Listen to all new songs with
                             crypto currency, a digital money
                         </Typography>
                         {/* <Typography variant="h6" align="center" color="textinherit" paragraph>

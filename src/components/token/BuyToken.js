@@ -31,8 +31,8 @@ function BuyToken(){
 
                 <div id="content" className="">
                         <p >
-                            Introducing "DApp Token" (DAPP)!
-                            Token price is {tokenPriceETH} Ether. You currently have {tokenHeld}&nbsp;DAPP.
+                            Introducing "MUSIC Token" (MSIC)!
+                            Token price is {tokenPriceETH} Ether. You currently have {tokenHeld}&nbsp;MSIC.
                         </p>
                         <br/>
                         <form onSubmit={(event) => {
@@ -79,7 +79,7 @@ function BuyToken(){
 
                 <div id="content" className="">
                         <p >
-                           Transfer tokens from {currentAccount} . You currently have {tokenHeld}&nbsp;DAPP.
+                           Transfer tokens from {currentAccount} . You currently have {tokenHeld}&nbsp;MSIC.
                         </p>
                         <br/>
                         <form onSubmit={(event) => {

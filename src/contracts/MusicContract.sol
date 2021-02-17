@@ -85,13 +85,13 @@ contract MusicContract{
 
         //divide and allocate _amount
         if(music_Contract.singerPercentage != 0){
-            balanceOf[music_Contract.singer].redeemableBalance = (_amount.mul(music_Contract.singerPercentage)).div(100);
+            balanceOf[music_Contract.singer].redeemableBalance = balanceOf[music_Contract.singer].redeemableBalance.add((_amount.mul(music_Contract.singerPercentage)).div(100));
         }  
         if(music_Contract.writerPercenrage != 0){
-            balanceOf[music_Contract.writer].redeemableBalance = (_amount.mul(music_Contract.writerPercenrage)).div(100);
+            balanceOf[music_Contract.writer].redeemableBalance = balanceOf[music_Contract.writer].redeemableBalance.add((_amount.mul(music_Contract.writerPercenrage)).div(100));
         }
         if(music_Contract.producerPercentage != 0){
-            balanceOf[music_Contract.producer].redeemableBalance = (_amount.mul(music_Contract.producerPercentage)).div(100);
+            balanceOf[music_Contract.producer].redeemableBalance = balanceOf[music_Contract.producer].redeemableBalance.add((_amount.mul(music_Contract.producerPercentage)).div(100));
         }
 
         return true;

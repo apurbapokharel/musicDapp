@@ -30,7 +30,7 @@ function BuyToken(){
 
                 <div id="content" className="">
                         <p >
-                            You {currentAccount} currently have {redeemableBalance}&nbsp;DAPP that can be redeemed.
+                            You {currentAccount} currently have {redeemableBalance}&nbsp;MSIC that can be redeemed.
                         </p>
                         <br/>
                         <form onSubmit={(event) => {
