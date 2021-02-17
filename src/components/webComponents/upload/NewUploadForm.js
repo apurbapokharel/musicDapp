@@ -169,7 +169,8 @@ function Index()
           'artistName': singerName,
           'aesKey' : aesKey,
           'iv': iv,
-          'costPerStream': costPerStream
+          'costPerStream': costPerStream,
+          'costPerDownload': cost
         })
         .then((bool) => {
         })

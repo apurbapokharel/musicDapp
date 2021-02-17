@@ -4,7 +4,7 @@ import {Grid, Paper} from '@material-ui/core';
 import Aux from '../../../hoc/Auxiliary';
 import { useContext } from 'react';
 import playerContext from '../../../../context/playerContext';
-import { getSongKey, purchaseSong, getPurchaseList } from '../../../API Caller/RESTFetcher';
+import { getSongKey, purchaseSong, getPurchaseList, increaseStreamCount } from '../../../API Caller/RESTFetcher';
 import fleek from '@fleekhq/fleek-storage-js';
 import crypto from 'crypto-js';
 
@@ -77,6 +77,18 @@ function SongRow(props) {
     return result.flat(Infinity) 
     }
 
+    const increaseStreamCountt = async() => {
+        await increaseStreamCount({
+            'songIdentifier': props.music.musicIdentifier,
+        })
+        .then((bool) => {
+            console.log('success');
+          })
+          .catch((bool) => {
+            console.log('fail');
+          })
+    }
+
     const decrypt = async() => {
         //get data
         const input = {
@@ -110,7 +122,7 @@ function SongRow(props) {
             window.alert('Cannot listen without paying streaming amount');
         })
         .on('confirmation', async() => {
-            console.log('success');
+            await increaseStreamCountt()
             await decrypt()
             SetCurrent((songCount))
             setCurrentSong(props.music.musicName)

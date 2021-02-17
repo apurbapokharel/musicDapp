@@ -58,10 +58,10 @@ class FirstLayout extends Component {
                         Connecting Artists and Fans directly using Ethereum
                         </Typography>
                         <Typography variant="h5" align="center" color="textinherit" gutterBottom>
-                            Listen all new songs with very low cost using 
-                            cryptho currency, a digital money
+                            Listen to all new songs with  low cost using 
+                            crypto currency, a digital money
                         </Typography>
-                        <Typography variant="h6" align="center" color="textinherit" paragraph>
+                        {/* <Typography variant="h6" align="center" color="textinherit" paragraph>
                             Read more to know how to use this app and for other helps
                         </Typography>
                         <Typography align="center">
@@ -70,7 +70,7 @@ class FirstLayout extends Component {
                                 Know More
                             </Button>
                             </a>
-                        </Typography>
+                        </Typography> */}
                         </Box>
                         {/* <Tooltip title="Your playlist">
                         <Fab color="secondary" aria-label="Audio" className={classes.fabButton}>

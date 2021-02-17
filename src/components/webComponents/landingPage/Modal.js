@@ -5,6 +5,7 @@ import { Icon, Input, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CancelIcon from '@material-ui/icons/Cancel';
+import { increaseRevenueFromTip } from '../../API Caller/RESTFetcher';
 
 function getModalStyle() {
   const top = 50 ;
@@ -68,6 +69,15 @@ function SimpleModal(props) {
     <form style={modalStyle} className={classes.paper} onSubmit={(event) => {
         event.preventDefault();
         props.contractAddress.methods.musicTip(props.id, props.musicIdentifier, price*10**10).send({ from : props.currentAccount })
+        .on('error', () => {
+          window.alert('Error');
+        })
+        .on('confirmation', async() => {
+          await increaseRevenueFromTip({
+            "songIdentifier": props.musicIdentifier,
+            "tipAmount": price
+          })
+        })
         handleClose();
       }}>
         <TextField value={price} id="price" label="Price eg 1.2 DAPP" className={classes.text} type="text" onChange={e => setPrice(e.target.value)}  />

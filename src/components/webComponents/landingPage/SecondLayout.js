@@ -47,7 +47,7 @@ function SecondLayout() {
              <CloudUploadIcon />
         </Typography>
         <Typography variant="h6" align="center" color="textPrimary" gutterBottom>
-            Very low Fees
+            Low Fees
          </Typography>
         <Typography variant="h6" align="center" color="textPrimary" gutterBottom>
             Get 100% profit

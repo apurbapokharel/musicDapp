@@ -144,3 +144,51 @@ export const searchSong = async (data) => {
         
     });
 };
+
+export const increaseStreamCount = async(data) => {
+    var changeableUrl = `${url}/updateStreamCount`;
+
+    return new Promise(async (resolve, reject) => {
+        const res = await axios.patch(changeableUrl, data);
+        console.log(res); 
+        if(res.data != false ){
+            resolve(res.data)
+            
+        }else{
+            reject(false);
+        }
+        
+    });
+};
+
+export const increaseDownloadCount = async(data) => {
+    var changeableUrl = `${url}/updateDownloadCount`;
+
+    return new Promise(async (resolve, reject) => {
+        const res = await axios.patch(changeableUrl, data);
+        console.log(res); 
+        if(res.data != false ){
+            resolve(res.data)
+            
+        }else{
+            reject(false);
+        }
+        
+    });
+};
+
+export const increaseRevenueFromTip = async(data) => {
+    var changeableUrl = `${url}/tipArtist`;
+
+    return new Promise(async (resolve, reject) => {
+        const res = await axios.patch(changeableUrl, data);
+        console.log(res); 
+        if(res.data != false ){
+            resolve(res.data)
+            
+        }else{
+            reject(false);
+        }
+        
+    });
+};

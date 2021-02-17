@@ -17,7 +17,8 @@ import { useContext } from 'react';
 import playerContext from '../../../context/playerContext';
 import fleek from '@fleekhq/fleek-storage-js';
 import crypto from 'crypto-js';
-import { getSongKey, purchaseSong, getPurchaseList } from '../../API Caller/RESTFetcher';
+import { getSongKey, purchaseSong, getPurchaseList, increaseStreamCount, increaseDownloadCount } from '../../API Caller/RESTFetcher';
+// import fileSaver from 'file-saver';
 
 function SongCard(props) {
 
@@ -150,13 +151,37 @@ function SongCard(props) {
         setSongSource(songSrc)
     }
 
+    const increaseStreamCountt = async() => {
+        await increaseStreamCount({
+            'songIdentifier': props.music.musicIdentifier,
+        })
+        .then((bool) => {
+            console.log('success');
+          })
+          .catch((bool) => {
+            console.log('fail');
+          })
+    }
+
+    const increaseDownloadCountt = async() => {
+        await increaseDownloadCount({
+            'songIdentifier': props.music.musicIdentifier,
+        })
+        .then((bool) => {
+            console.log('success');
+          })
+          .catch((bool) => {
+            console.log('fail');
+          })
+    }
+
     const assignVarToState = async() => {
         props.contractAddress.methods.musicTip(songCount, props.music.musicIdentifier, costPerStream*10**10).send({ from : props.currentAccount })
         .on('error', () => {
             window.alert('Cannot listen without paying streaming amount');
         })
         .on('confirmation', async() => {
-            console.log('success');
+            await increaseStreamCountt()
             await decrypt()
             SetCurrent((songCount))
             setCurrentSong(props.music.musicName)
@@ -166,17 +191,25 @@ function SongCard(props) {
     }
 
     const purchaseMusic = async() => {
-        await purchaseSong({
-            'songIdentifier': props.music.musicIdentifier,
-            'userPublicKey': props.currentAccount
-          })
-          .then((bool) => {
-            console.log('success');
-          })
-          .catch((bool) => {
-            console.log('fail');
-          })
+        
         props.contractAddress.methods.musicPurchase(songCount, props.music.musicIdentifier).send({ from : props.currentAccount })
+        .on('error', () => {
+            window.alert('Transaction failed');
+        })
+        .on('confirmation', async() => {
+            await increaseDownloadCountt()
+            await purchaseSong({
+                'songIdentifier': props.music.musicIdentifier,
+                'userPublicKey': props.currentAccount
+            })
+            .then((bool) => {
+            console.log('success');
+            })
+            .catch((bool) => {
+            console.log('fail');
+            })
+
+        })
 
     }
     return (
@@ -214,13 +247,13 @@ function SongCard(props) {
 
                 <div className="sample__streamer">
                     {downloadStatus 
-                    ? null
-                    :
-                    <div className="sample__card__streamer1">
-                    <Tooltip title="purchase" onClick={() => purchaseMusic()}>
-                        <CloudDownloadIcon />
-                    </Tooltip>
-                    </div> 
+                        ? null
+                        :
+                        <div className="sample__card__streamer1">
+                            <Tooltip title="purchase" onClick={() => purchaseMusic()}>
+                                <CloudDownloadIcon />
+                            </Tooltip>
+                        </div> 
                     }            
                     <div className="sample__card__streamer2">
                     <Tooltip title="play" onClick={() => assignVarToState()}>
