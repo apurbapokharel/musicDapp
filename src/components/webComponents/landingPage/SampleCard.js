@@ -18,7 +18,7 @@ import playerContext from '../../../context/playerContext';
 import fleek from '@fleekhq/fleek-storage-js';
 import crypto from 'crypto-js';
 import { getSongKey, purchaseSong, getPurchaseList, increaseStreamCount, increaseDownloadCount } from '../../API Caller/RESTFetcher';
-// import fileSaver from 'file-saver';
+import fileSaver from 'file-saver';
 
 function SongCard(props) {
 
@@ -124,7 +124,7 @@ function SongCard(props) {
     return result.flat(Infinity) 
     }
 
-    const decrypt = async() => {
+    const decrypt = async(downloadStatus) => {
         //get data
         const input = {
             apiKey: new String(process.env.REACT_APP_API_KEY),
@@ -149,6 +149,9 @@ function SongCard(props) {
         var blob = new Blob( [ arrayBufferView ], { type: 'music/mp3' } )
         var songSrc = URL.createObjectURL(blob)
         setSongSource(songSrc)
+        if(downloadStatus == 1){
+            fileSaver.saveAs(blob, `${String(props.music.musicName)}.mp3`)
+        }
     }
 
     const increaseStreamCountt = async() => {
@@ -182,7 +185,7 @@ function SongCard(props) {
         })
         .on('confirmation', async() => {
             await increaseStreamCountt()
-            await decrypt()
+            await decrypt(0)
             SetCurrent((songCount))
             setCurrentSong(props.music.musicName)
             setCurrentArtist(props.music.artistName)
@@ -198,15 +201,16 @@ function SongCard(props) {
         })
         .on('confirmation', async() => {
             await increaseDownloadCountt()
+            await decrypt(1)
             await purchaseSong({
                 'songIdentifier': props.music.musicIdentifier,
                 'userPublicKey': props.currentAccount
             })
             .then((bool) => {
-            console.log('success');
+                console.log('success');
             })
             .catch((bool) => {
-            console.log('fail');
+                console.log('fail');
             })
 
         })
